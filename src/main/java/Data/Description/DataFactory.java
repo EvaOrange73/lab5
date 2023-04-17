@@ -1,6 +1,7 @@
-package DataDescription;
+package Data.Description;
 
-import DataDescription.Generation.Generator;
+import Data.*;
+import Data.Generation.Generator;
 import InputExceptions.FieldException;
 
 import java.lang.reflect.Field;
@@ -102,7 +103,7 @@ public class DataFactory {
                     throw new RuntimeException(); //TODO
                 }
             }
-            case "DataDescription.MusicGenre" -> {
+            case "Data.MusicGenre" -> {
                 return MusicGenre.values()[Integer.parseInt(arg) - 1];
                 //TODO
             }

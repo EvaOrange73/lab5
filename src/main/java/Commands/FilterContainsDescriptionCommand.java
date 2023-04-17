@@ -2,7 +2,7 @@ package Commands;
 
 import Control.CollectionManager;
 import Control.IOManager;
-import DataDescription.MusicBand;
+import Data.MusicBand;
 
 public class FilterContainsDescriptionCommand extends CommandWithOneArgument {
 

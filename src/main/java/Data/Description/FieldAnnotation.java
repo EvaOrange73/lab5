@@ -1,6 +1,6 @@
-package DataDescription;
+package Data.Description;
 
-import DataDescription.Generation.Generator;
+import Data.Generation.Generator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

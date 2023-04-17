@@ -1,7 +1,7 @@
 package Control;
 
-import DataDescription.Generation.IdGenerator;
-import DataDescription.MusicBand;
+import Data.Generation.IdGenerator;
+import Data.MusicBand;
 
 import java.util.*;
 import java.util.stream.Collectors;

@@ -1,6 +1,8 @@
 package Control;
 
-import DataDescription.*;
+import Data.*;
+import Data.Description.DataFactory;
+import Data.Description.DataTypes;
 import InputExceptions.FieldException;
 import InputExceptions.InputException;
 

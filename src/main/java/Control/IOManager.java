@@ -1,6 +1,6 @@
 package Control;
 
-import DataDescription.MusicBand;
+import Data.MusicBand;
 import InputExceptions.InputException;
 
 import java.io.IOException;

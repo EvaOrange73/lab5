@@ -1,9 +1,9 @@
 package Control;
 
 
-import DataDescription.DataFactory;
-import DataDescription.DataTypes;
-import DataDescription.MusicBand;
+import Data.Description.DataFactory;
+import Data.Description.DataTypes;
+import Data.MusicBand;
 import InputExceptions.FieldException;
 import InputExceptions.RecursionException;
 

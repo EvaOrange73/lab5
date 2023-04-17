@@ -1,4 +1,4 @@
-package DataDescription.Generation;
+package Data.Generation;
 
 public interface Generator {
     Object generate();

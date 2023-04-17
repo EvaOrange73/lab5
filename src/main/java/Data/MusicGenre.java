@@ -1,4 +1,4 @@
-package DataDescription;
+package Data;
 
 public enum MusicGenre {
     HIP_HOP,

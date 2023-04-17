@@ -2,7 +2,7 @@ package Commands;
 
 import Control.CollectionManager;
 import Control.IOManager;
-import DataDescription.MusicBand;
+import Data.MusicBand;
 import InputExceptions.InputException;
 
 public class UpdateCommand extends CommandWithOneArgument {

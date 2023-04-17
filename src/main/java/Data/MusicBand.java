@@ -1,7 +1,9 @@
-package DataDescription;
+package Data;
 
-import DataDescription.Generation.DataGenerator;
-import DataDescription.Generation.IdGenerator;
+import Data.Description.DataDescription;
+import Data.Description.FieldAnnotation;
+import Data.Generation.DataGenerator;
+import Data.Generation.IdGenerator;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package DataDescription.Generation;
+package Data.Generation;
 
 public class IdGenerator implements Generator {
     static int nextId = 1;

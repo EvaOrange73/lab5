@@ -2,8 +2,8 @@ package Commands;
 
 import Control.CollectionManager;
 import Control.IOManager;
-import DataDescription.MusicBand;
-import DataDescription.MusicGenre;
+import Data.MusicBand;
+import Data.MusicGenre;
 
 import java.util.ArrayList;
 
