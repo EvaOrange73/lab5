@@ -1,6 +1,8 @@
 package Control;
 
 
+import DataDescription.DataFactory;
+import DataDescription.DataTypes;
 import DataDescription.MusicBand;
 import InputExceptions.FieldException;
 import InputExceptions.RecursionException;
@@ -61,11 +63,20 @@ public class ScriptManager extends IOManager {
         }
         args[7] = this.nextLine();
         if (args[7].isEmpty())
-            return new MusicBand(args);
+            try {
+                return (MusicBand) DataFactory.formObject(DataTypes.MUSIC_BAND, args);
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+
         for (int i = 8; i < 11; i++) {
             args[i] = this.nextLine();
         }
-        return new MusicBand(args);
+        try {
+            return (MusicBand) DataFactory.formObject(DataTypes.MUSIC_BAND, args);
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -73,7 +84,7 @@ public class ScriptManager extends IOManager {
         return this.recursionDepth;
     }
 
-    private String nextLine(){
+    private String nextLine() {
         return this.scanner.nextLine().split("#")[0].trim();
     }
 }

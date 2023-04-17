@@ -1,5 +1,6 @@
 package Control;
 
+import DataDescription.Generation.IdGenerator;
 import DataDescription.MusicBand;
 
 import java.util.*;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
  */
 public class CollectionManager {
     private LinkedHashSet<MusicBand> collection = new LinkedHashSet<>();
-    private java.util.Date creationDate = new Date();
+    private Date creationDate = new Date();
 
     /**
      * Метод, заполняющий коллекцию элементами, считанными из стартового файла
@@ -20,14 +21,12 @@ public class CollectionManager {
      * @param musicBands список элементов
      */
     public void setStartCollection(ArrayList<MusicBand> musicBands) {
-        int id = 1;
-        for (MusicBand musicBand : musicBands) {
-            musicBand.setId(id);
-            id++;
-        }
-        MusicBand.setNextId(id);
         collection.addAll(musicBands);
         this.sort();
+        int maxId = 0;
+        for (MusicBand musicBand : collection)
+            if (musicBand.getId() > maxId) maxId = musicBand.getId();
+        IdGenerator.setNextId(maxId + 1);
     }
 
     public LinkedHashSet<MusicBand> getCollection() {
