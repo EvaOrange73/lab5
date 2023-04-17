@@ -22,7 +22,7 @@ tasks.test {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'main.Main'
+                'Main-Class': 'Main'
         )
     }
 }
