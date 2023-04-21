@@ -21,5 +21,8 @@ public @interface FieldAnnotation {
 
     Class<? extends Generator> generator() default Generator.class;
 
+    boolean isCompositeDataType() default false;
+
+    boolean isEnum() default false;
 
 }

@@ -1,131 +1,74 @@
 package Data.Description;
 
+import Control.Messages.Answer;
+import Control.Messages.Question;
 import Data.*;
-import Data.Generation.Generator;
-import InputExceptions.FieldException;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DataFactory {
-    public static DataDescription formObject(DataTypes dataType, String[] args) throws FieldException, InstantiationException, IllegalAccessException {
-        DataDescription dataDescription;
-        switch (dataType) {
-            case ALBUM -> dataDescription = new Album();
-            case MUSIC_BAND -> dataDescription = new MusicBand();
-            case COORDINATES -> dataDescription = new Coordinates();
-            default -> throw new RuntimeException(); //TODO ошибка
-        }
 
-        Field[] fields = dataDescription.getClass().getDeclaredFields();
+    DataDescription object;
+    private HashMap<Integer, FieldFactory> fields;
+
+    public DataFactory(DataTypes dataType) {
+        this.object = dataType.getNewInstance();
+        this.fields = formFields(dataType);
+    }
+
+    private HashMap<Integer, FieldFactory> formFields(DataTypes dataType) {
+        HashMap<Integer, FieldFactory> fieldsMap = new HashMap<>();
+        Field[] fields;
+        switch (dataType) {
+            case MUSIC_BAND -> fields = MusicBand.class.getDeclaredFields(); //TODO перенести в DataTypes
+            case COORDINATES -> fields = Coordinates.class.getDeclaredFields();
+            case ALBUM -> fields = Album.class.getDeclaredFields();
+            default -> throw new RuntimeException("Что-то пошло не так при формировании списка полей");
+        }
         int i = 0;
         for (Field field : fields) {
-            field.setAccessible(true);
-            FieldAnnotation annotation = field.getAnnotation(FieldAnnotation.class);
-
-            if (field.getType() == Coordinates.class) {
-                if (args[i].isEmpty()) field.set(dataDescription, null); //TODO ошибка
-                else {
-                    field.set(
-                            dataDescription,
-                            DataFactory.formObject(DataTypes.COORDINATES, Arrays.copyOfRange(args, i, i + 2))
-                    );
-                    i += 2;
-                }
-                continue;
-            }
-
-            if (field.getType() == Album.class) {
-                if (args[i].isEmpty()) field.set(dataDescription, null);
-                else {
-                    field.set(
-                            dataDescription,
-                            DataFactory.formObject(DataTypes.ALBUM, Arrays.copyOfRange(args, i, i + 4))
-                    );
-                    i += 4;
-                }
-                continue;
-            }
-
-            if (annotation.isGenerate())
-                field.set(dataDescription, generate(annotation));
-            else {
-                field.set(dataDescription, validate(args[i], field, annotation));
-                i++; //TODO ошибка
-            }
-
+            fieldsMap.put(i, new FieldFactory(field, i, object));
+            i++;
         }
-
-        return dataDescription;
+        return fieldsMap;
     }
 
-    private static Object generate(FieldAnnotation annotation) throws InstantiationException, IllegalAccessException {
-        Generator generator = annotation.generator().newInstance();
-        return generator.generate();
+    public HashMap<Integer, Question> getQuestions() {
+        HashMap<Integer, Question> questions = new HashMap<>();
+        this.fields.forEach((key, field) -> {
+            Question question = field.getQuestion();
+            if (field.getAnnotation().isCompositeDataType()){
+                ArrayList<FieldFactory> unsetSubFields = new ArrayList<>();
+                for (FieldFactory subfield: field.getSubfields()){
+                    if (!(subfield.isSet())) unsetSubFields.add(subfield);
+                }
+                question.setSubQuestions(unsetSubFields);
+            }
+            if (!(field.isSet()) && question != null)
+                questions.put(key, question);
+        });
+        return questions;
     }
 
-    private static Object validate(String arg, Field field, FieldAnnotation annotation) {
-        if (arg.isEmpty()) {
-            if (annotation.nullable()) return null;
-            throw new RuntimeException(); //TODO
-        }
-        Object argWithType = checkType(field.getType(), arg);
-        if (annotation.isValidate() && !(checkMoreThen(argWithType, annotation.moreThen()))) {
-            throw new RuntimeException(); //TODO
-        }
-        return argWithType;
+    public void setAnswers(HashMap<Integer, Answer> answers) {
+        answers.forEach((key, answer) -> {
+            FieldFactory field = this.fields.get(key);
+            if (answer != null) {
+                field.setInput(answer);
+            }
+        });
     }
 
-    private static Object checkType(Type type, String arg) {
-        switch (type.getTypeName()) {
-            case "java.lang.String" -> {
-                return arg;
-            }
-            case "int", "java.lang.Integer" -> {
-                try {
-                    return Integer.parseInt(arg);
-                } catch (NumberFormatException e) {
-                    throw new RuntimeException(); //TODO
-                }
-            }
-            case "long", "java.lang.Long" -> {
-                try {
-                    return Long.parseLong(arg);
-                } catch (NumberFormatException e) {
-                    throw new RuntimeException(); //TODO
-                }
-            }
-            case "float", "java.lang.Float" -> {
-                try {
-                    return Float.parseFloat(arg);
-                } catch (NumberFormatException e) {
-                    throw new RuntimeException(); //TODO
-                }
-            }
-            case "Data.MusicGenre" -> {
-                return MusicGenre.values()[Integer.parseInt(arg) - 1];
-                //TODO
-            }
-            default -> throw new RuntimeException(); //TODO
-        }
-    }
-
-    private static boolean checkMoreThen(Object arg, int moreThen) {
-        switch (arg.getClass().getTypeName()) {
-            case "java.lang.Integer" -> {
-                return (int) arg > moreThen;
-            }
-            case "long", "java.lang.Long" -> {
-                return (long) arg > (long) moreThen;
-            }
-            case "float", "java.lang.Float" -> {
-                return (float) arg > (float) moreThen;
-            }
-            //TODO default
-        }
+    public boolean hasUnsetFields() {
+        for (FieldFactory field : this.fields.values())
+            if (!(field.isSet())) return true;
         return false;
     }
 
 
+    public DataDescription getFormedObject() {
+        return object;
+    }
 }

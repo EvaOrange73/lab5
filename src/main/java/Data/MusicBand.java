@@ -24,7 +24,7 @@ public class MusicBand extends DataDescription implements Comparable<MusicBand> 
     /**
      * Поле не может быть null
      */
-    @FieldAnnotation(name = "координаты", nullable = false)
+    @FieldAnnotation(name = "координаты", nullable = false, isCompositeDataType = true)
     private Coordinates coordinates;
     /**
      * Поле не может быть null,
@@ -50,12 +50,12 @@ public class MusicBand extends DataDescription implements Comparable<MusicBand> 
     /**
      * Поле не может быть null
      */
-    @FieldAnnotation(name = "музыкальный жанр", nullable = false)
+    @FieldAnnotation(name = "музыкальный жанр", nullable = false, isEnum = true)
     private MusicGenre genre;
     /**
      * Поле может быть null
      */
-    @FieldAnnotation(name = "лучший альбом")
+    @FieldAnnotation(name = "лучший альбом", isCompositeDataType = true)
     private Album bestAlbum;
 
     @Override
