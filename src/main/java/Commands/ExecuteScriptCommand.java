@@ -3,7 +3,6 @@ package Commands;
 import Control.CollectionManager;
 import Control.CommandManager;
 import Control.IOManager;
-import Control.ScriptManager;
 import InputExceptions.RecursionException;
 
 import java.io.FileNotFoundException;
@@ -22,22 +21,6 @@ public class ExecuteScriptCommand extends CommandWithOneArgument {
 
     @Override
     public void execute(String argument) {
-        IOManager previousIOManager = super.ioManager;
-        try {
-            ScriptManager scriptManager = new ScriptManager(
-                    argument,
-                    previousIOManager.getStartFileManager(),
-                    super.collectionManager,
-                    this.commandManager,
-                    previousIOManager.getRecursionDepth() + 1
-            );
-            this.commandManager.setIoManagers(scriptManager);
-            scriptManager.executeFile();
-            this.commandManager.setIoManagers(previousIOManager);
-        } catch (FileNotFoundException e) {
-            super.ioManager.print("файл не найден");
-        } catch (RecursionException e) {
-            super.ioManager.print(e.toString());
-        }
+        super.ioManager.startExecuteScript(argument);
     }
 }

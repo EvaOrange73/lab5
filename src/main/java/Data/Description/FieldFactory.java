@@ -15,7 +15,7 @@ public class FieldFactory {
     private Field field;
     private FieldAnnotation annotation;
 
-    private ArrayList<FieldFactory> subfields;
+    private ArrayList<FieldFactory> subfields = new ArrayList<>();
 
     private Question question;
     private String input;
@@ -48,11 +48,21 @@ public class FieldFactory {
         return isSet;
     }
 
+    public String getExceptionMessage(){
+        String exception = this.exceptionMessage;
+        for(FieldFactory subfield: subfields){
+            if (!(subfield.isSet) && subfield.getExceptionMessage() != null)
+                exception += "\n    " + subfield.getExceptionMessage();
+        }
+        return exception;
+    }
+
     public void setInput(Answer answer) {
         this.input = answer.getAnswer();
         if (this.annotation.isCompositeDataType()) {
-            if (answer.getSubAnswers().isEmpty())
+            if (answer.getSubAnswers().isEmpty()) {
                 setField(null);
+            }
             else {
                 boolean allSubfieldsSet = true;
                 for (FieldFactory subfield : this.subfields) {
@@ -104,12 +114,7 @@ public class FieldFactory {
 
     private void setFieldOrException() {
         if (this.input.isEmpty()) {
-            if (this.annotation.nullable()) setField(null);
-            else this.setException("Поле не может быть null");
-            return;
-        }
-        if (this.annotation.isCompositeDataType()) {
-            //TOdO exceptions
+            setField(null);
             return;
         }
         this.exceptionMessage = null;
@@ -123,13 +128,17 @@ public class FieldFactory {
     }
 
     private void setField(Object value) {
-        this.isSet = true;
+        if (value==null && !(this.annotation.nullable())) {
+            this.setException("Поле не может быть null");
+            return;
+        }
         field.setAccessible(true);
         try {
             field.set(object, value);
         } catch (IllegalAccessException e) {
             throw new RuntimeException("Что-то пошло не так при установке значения поля\n" + e);
         }
+        this.isSet = true;
     }
 
     private void setException(String exceptionMessage) {
@@ -163,7 +172,7 @@ public class FieldFactory {
                 default -> throw new RuntimeException("Что-то пошло не так при преобразовании типов");
             }
         } catch (NumberFormatException e) {
-            this.setException("Значение поля должно быть типа" + field.getType());
+            this.setException("Значение поля должно быть типа " + field.getType());
         }
         return null;
     }

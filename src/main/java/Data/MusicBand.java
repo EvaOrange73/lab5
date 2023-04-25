@@ -35,7 +35,7 @@ public class MusicBand extends DataDescription implements Comparable<MusicBand> 
     /**
      * Значение поля должно быть больше 0
      */
-    @FieldAnnotation(name = "количество участников", nullable = false, isValidate = true)
+    @FieldAnnotation(name = "количество участников", isValidate = true)
     private Long numberOfParticipants;
     /**
      * Значение поля должно быть больше 0
@@ -80,11 +80,11 @@ public class MusicBand extends DataDescription implements Comparable<MusicBand> 
     }
 
     @Override
-    public int compareTo(MusicBand o) {
-        long thisSales = this.bestAlbum.getSales();
-        long thatSales = o.bestAlbum.getSales();
-        if (!(thisSales == thatSales))
-            return Long.compare(thisSales, thatSales);
+    public int compareTo(MusicBand o) { //TODO
+//        long thisSales = this.bestAlbum.getSales();
+//        long thatSales = o.bestAlbum.getSales();
+//        if (!(thisSales == thatSales))
+//            return Long.compare(thisSales, thatSales);
         return this.name.compareTo(o.name);
     }
 

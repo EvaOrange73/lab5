@@ -18,6 +18,7 @@ public class Question {
 
     public Question(FieldAnnotation annotation) {
         this.annotation = annotation;
+        getQuestion();
     }
 
 
@@ -30,9 +31,9 @@ public class Question {
             }
         } else if (annotation.isCompositeDataType()) {
             this.isComposite = true;
-            this.question = "Вы хотите ввести " + annotation.name() + "? y/n";
+            this.question += "Вы хотите ввести " + annotation.name() + "? y/n";
 
-        } else this.question = "Введите " + annotation.name();
+        } else this.question += "Введите " + annotation.name();
         return this.question;
     }
 
