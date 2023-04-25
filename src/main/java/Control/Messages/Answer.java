@@ -2,6 +2,9 @@ package Control.Messages;
 
 import java.util.HashMap;
 
+/**
+ * Формат, в котором поля, введенные пользователем, передаются из IOManager в DataFactory
+ */
 public class Answer {
     private String answer;
     private boolean isComposite;

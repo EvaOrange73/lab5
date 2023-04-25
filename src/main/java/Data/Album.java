@@ -1,9 +1,9 @@
 package Data;
 
-import Data.Description.DataDescription;
+import Data.Description.Data;
 import Data.Description.FieldAnnotation;
 
-public class Album extends DataDescription {
+public class Album extends Data {
     /**
      * Поле не может быть null, Строка не может быть пустой
      */

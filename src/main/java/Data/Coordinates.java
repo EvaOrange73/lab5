@@ -1,9 +1,9 @@
 package Data;
 
-import Data.Description.DataDescription;
+import Data.Description.Data;
 import Data.Description.FieldAnnotation;
 
-public class Coordinates extends DataDescription {
+public class Coordinates extends Data {
     /**
      * Поле не может быть null
      */

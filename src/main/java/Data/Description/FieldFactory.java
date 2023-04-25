@@ -9,8 +9,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
+/**
+ * Фабрика полей - класс, осуществляющий генерацию/валидацию значения поля
+ * и последующую установку ошибки или значения поля в объекте Data
+ */
 public class FieldFactory {
-    private DataDescription object;
+    private Data object;
     private int number;
     private Field field;
     private FieldAnnotation annotation;
@@ -23,14 +27,22 @@ public class FieldFactory {
     private boolean isSet = false;
     private String exceptionMessage;
 
-    public FieldFactory(Field field, int number, DataDescription object) {
+    /**
+     * Конструктор
+     * Если поле - объект составного типа, создаст FieldFactory для каждого поля этого типа
+     * Если поле генерируемо, вызовет соответствующий генератор
+     * @param field - поле, которое нужно установить
+     * @param number - номер поля. Будет совпадать с номером соответствующих вопросов и ответов
+     * @param object - объект, которому нужно установить это поле
+     */
+    public FieldFactory(Field field, int number, Data object) {
         this.object = object;
         this.number = number;
         this.field = field;
         this.annotation = field.getAnnotation(FieldAnnotation.class);
 
         if (this.annotation.isCompositeDataType()) {
-            DataDescription compositeObject = DataTypes.getNewInstanceByName(field.getType().getName());
+            Data compositeObject = DataTypes.getNewInstanceByName(field.getType().getName());
             setField(compositeObject);
             isSet = false;
             this.subfields = setSubfields(compositeObject);
@@ -40,14 +52,24 @@ public class FieldFactory {
         else this.question = new Question(this.annotation);
     }
 
+    /**
+     * @return вопрос, который нужно задать пользователю (приглашение ко вводу + предыдущая ошибка, если есть)
+     */
     public Question getQuestion() {
         return question;
     }
 
+    /**
+     * @return Получилось ли установить поле
+     */
     public boolean isSet() {
         return isSet;
     }
 
+    /**
+     * @return Сообщение об ошибках, возникших в поле
+     * и его подполях, если поле - объект составного типа
+     */
     public String getExceptionMessage(){
         String exception = this.exceptionMessage;
         for(FieldFactory subfield: subfields){
@@ -57,6 +79,10 @@ public class FieldFactory {
         return exception;
     }
 
+    /**
+     * Установить введенное значение
+     * @param answer значение, которое пользователь хочет установить в эо поле
+     */
     public void setInput(Answer answer) {
         this.input = answer.getAnswer();
         if (this.annotation.isCompositeDataType()) {
@@ -102,7 +128,7 @@ public class FieldFactory {
         return generator.generate();
     }
 
-    private ArrayList<FieldFactory> setSubfields(DataDescription compositeObject) {
+    private ArrayList<FieldFactory> setSubfields(Data compositeObject) {
         ArrayList<FieldFactory> subfields = new ArrayList<>();
         int i = 0;
         for (Field subfield : compositeObject.getClass().getDeclaredFields()) {

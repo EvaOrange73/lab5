@@ -8,9 +8,12 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Фабрика подклассов Data
+ */
 public class DataFactory {
 
-    DataDescription object;
+    Data object;
     private HashMap<Integer, FieldFactory> fields;
 
     public DataFactory(DataTypes dataType) {
@@ -20,21 +23,17 @@ public class DataFactory {
 
     private HashMap<Integer, FieldFactory> formFields(DataTypes dataType) {
         HashMap<Integer, FieldFactory> fieldsMap = new HashMap<>();
-        Field[] fields;
-        switch (dataType) {
-            case MUSIC_BAND -> fields = MusicBand.class.getDeclaredFields(); //TODO перенести в DataTypes
-            case COORDINATES -> fields = Coordinates.class.getDeclaredFields();
-            case ALBUM -> fields = Album.class.getDeclaredFields();
-            default -> throw new RuntimeException("Что-то пошло не так при формировании списка полей");
-        }
         int i = 0;
-        for (Field field : fields) {
+        for (Field field : dataType.getDeclaredFields()) {
             fieldsMap.put(i, new FieldFactory(field, i, object));
             i++;
         }
         return fieldsMap;
     }
 
+    /**
+     * @return список вопросов, которые нужно задать пользователю
+     */
     public HashMap<Integer, Question> getQuestions() {
         HashMap<Integer, Question> questions = new HashMap<>();
         this.fields.forEach((key, field) -> {
@@ -52,6 +51,10 @@ public class DataFactory {
         return questions;
     }
 
+    /**
+     * Устанавливает поля по ответам пользователя
+     * @param answers ответы пользователя. Ключи соответствуют ключам вопросов, на которые пользователь отвечал
+     */
     public void setAnswers(HashMap<Integer, Answer> answers) {
         answers.forEach((key, answer) -> {
             FieldFactory field = this.fields.get(key);
@@ -76,8 +79,10 @@ public class DataFactory {
         return exceptions;
     }
 
-
-    public DataDescription getFormedObject() {
+    /**
+     * @return Сформированный фабрикой подкласс Data
+     */
+    public Data getFormedObject() {
         return object;
     }
 }

@@ -4,23 +4,37 @@ import Data.Album;
 import Data.Coordinates;
 import Data.MusicBand;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 
-public enum DataTypes {
+/**
+ * Типы данных - хранит подклассы Data, которые умеет обрабатывать DataFactory
+ */
+public enum DataTypes { //TODO может сделать внутренним классом Data?
     MUSIC_BAND("Data.MusicBand", MusicBand.class),
     ALBUM("Data.Album", Album.class),
     COORDINATES("Data.Coordinates", Coordinates.class);
 
     private String typeName;
-    private Class<? extends DataDescription> clazz;
+    private Class<? extends Data> clazz;
 
-    DataTypes(String typeName, Class<? extends DataDescription> clazz) {
+    DataTypes(String typeName, Class<? extends Data> clazz) {
         this.typeName = typeName;
         this.clazz = clazz;
     }
 
-    public DataDescription getNewInstance() {
+    /**
+     * @return список полей
+     */
+    public Field[] getDeclaredFields() {
+        return this.clazz.getDeclaredFields();
+    }
+
+    /**
+     * @return пустой объект
+     */
+    public Data getNewInstance() {
         try {
             return this.clazz.getDeclaredConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
@@ -29,7 +43,12 @@ public enum DataTypes {
         }
     }
 
-    public static DataDescription getNewInstanceByName(String name) {
+    /**
+     * Пустой объект по имени класса
+     * @param name имя класса
+     * @return пустой объект
+     */
+    public static Data getNewInstanceByName(String name) {
         for (DataTypes dataTypes : DataTypes.values())
             if (Objects.equals(dataTypes.typeName, name)) {
                 try {

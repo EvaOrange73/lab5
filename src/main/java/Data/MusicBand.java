@@ -1,13 +1,13 @@
 package Data;
 
-import Data.Description.DataDescription;
+import Data.Description.Data;
 import Data.Description.FieldAnnotation;
 import Data.Generation.DataGenerator;
 import Data.Generation.IdGenerator;
 
 import java.util.Objects;
 
-public class MusicBand extends DataDescription implements Comparable<MusicBand> {
+public class MusicBand extends Data implements Comparable<MusicBand> {
     /**
      * Поле не может быть null, Значение поля должно быть больше 0,
      * Значение этого поля должно быть уникальным,

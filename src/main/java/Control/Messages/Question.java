@@ -7,6 +7,9 @@ import Data.MusicGenre;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Формат, в котором передаются приглашения ко вводу недостающих полей от DataFactory к IOManager
+ */
 public class Question {
     private FieldAnnotation annotation;
 

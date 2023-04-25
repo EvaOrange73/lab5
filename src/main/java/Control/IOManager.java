@@ -14,17 +14,27 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Менеджер ввода и вывода -- абстрактный класс для чтения команд и их аргументов, а так же записи результатов их выполнения.
- * Имеет двух наследников: менеджер консоли и менеджер исполняемого файла.
- * Сам класс отвечает за вывод, а наследники -- за ввод.
+ * Менеджер ввода и вывода -- класс для чтения команд и их аргументов, а так же записи результатов их выполнения.
  */
 public class IOManager {
     private StartFileManager startFileManager;
     private CollectionManager collectionManager;
     private CommandManager commandManager;
-    private String fileName;
     private Input input;
 
+    /**
+     * @param startFileManager  для записи результатов программы в файл
+     * @param collectionManager общий параметр двух наследников
+     */
+    public IOManager(CollectionManager collectionManager, StartFileManager startFileManager, Input input) {
+        this.startFileManager = startFileManager;
+        this.collectionManager = collectionManager;
+        this.input = input;
+    }
+
+    /**
+     * Подкласс, реализующий типы ввода: консоль и исполняемый файл
+     */
     public enum Input {
         CONSOLE(new Scanner(System.in)),
         SCRIPT(new Scanner(""));
@@ -61,21 +71,13 @@ public class IOManager {
         }
     }
 
-    /**
-     * @param startFileManager  для записи результатов программы в файл
-     * @param collectionManager общий параметр двух наследников
-     */
-    public IOManager(CollectionManager collectionManager, StartFileManager startFileManager, Input input) {
-        this.startFileManager = startFileManager;
-        this.collectionManager = collectionManager;
-        this.fileName = "";
-        this.input = input;
-    }
-
     public void setCommandManager(CommandManager commandManager) {
         this.commandManager = commandManager;
     }
 
+    /**
+     * Основной метод программы: считывает команды и запускает их выполнение
+     */
     public void start() {
         try {
             startFileManager.readStartFile(this.collectionManager);
@@ -97,7 +99,7 @@ public class IOManager {
                 Полная справка по командам:
                 help
                 """);
-        while (this.input.hasNext()) {
+        while (this.input.hasNext()) { //TODO так плохо делать?
             String command = this.input.nextLine();
             if (!(command.isEmpty())) {
                 if (this.input == Input.SCRIPT) print("\nкоманда " + command);
@@ -111,6 +113,10 @@ public class IOManager {
 
     }
 
+    /**
+     * Запускает выполнение файла
+     * @param path - путь до исполняемого файла
+     */
     public void startExecuteScript(String path) {
         this.input = Input.SCRIPT;
         try {

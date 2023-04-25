@@ -2,7 +2,11 @@ package Data.Description;
 
 import java.lang.reflect.Field;
 
-public class DataDescription {
+/**
+ * Класс, от которого наследуются все классы, предназначенные для хранения данных.
+ * Наследников этого класса можно формировать по значениям полей, введенным пользователем
+ */
+public class Data {
     public String toString(String className) {
         String str = className + ": \n";
         for (Field field : this.getClass().getDeclaredFields()) {
@@ -11,7 +15,7 @@ public class DataDescription {
             try {
                 str += field.get(this) + "\n";
             } catch (IllegalAccessException e) {
-                throw new RuntimeException(e); //TODO когда возникает?
+                throw new RuntimeException(e);
             }
         }
         return str;
