@@ -67,6 +67,15 @@ public class DataFactory {
         return false;
     }
 
+    public String getExceptionsList(){
+        String exceptions = "";
+        for (FieldFactory field: fields.values()) {
+            if (!(field.isSet()))
+                exceptions += "\n" + field.getExceptionMessage();
+        }
+        return exceptions;
+    }
+
 
     public DataDescription getFormedObject() {
         return object;

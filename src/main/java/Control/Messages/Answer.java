@@ -23,4 +23,9 @@ public class Answer {
     public HashMap<Integer, Answer> getSubAnswers() {
         return subAnswers;
     }
+
+    @Override
+    public String toString(){
+        return answer;
+    }
 }

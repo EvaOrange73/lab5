@@ -34,13 +34,6 @@ public abstract class Command {
     public abstract void execute(String argument) throws InputException;
 
     /**
-     * @param ioManager менеджер ввода-вывода, который будет отвечать за чтение дополнительных аргументов для команды
-     */
-    public void setIoManager(IOManager ioManager) {
-        this.ioManager = ioManager;
-    }
-
-    /**
      * @return описание команды для help
      */
     String getDescription() {

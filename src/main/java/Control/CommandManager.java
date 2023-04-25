@@ -65,15 +65,4 @@ public class CommandManager {
             System.out.println(e.toString());
         }
     }
-
-    /**
-     * Метод, устанавливающий класс, который будет производить считывание аргументов команд и вывод сообщений об ошибках.
-     *
-     * @param ioManager менеджер ввода-вывода
-     */
-    public void setIoManagers(IOManager ioManager) {
-        this.ioManager = ioManager;
-        for (Command command : this.getCommands().values())
-            command.setIoManager(ioManager);
-    }
 }
