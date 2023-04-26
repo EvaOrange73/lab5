@@ -2,7 +2,6 @@ package Data.Description;
 
 import Control.Messages.Answer;
 import Control.Messages.Question;
-import Data.*;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -38,7 +37,7 @@ public class DataFactory {
         HashMap<Integer, Question> questions = new HashMap<>();
         this.fields.forEach((key, field) -> {
             Question question = field.getQuestion();
-            if (field.getAnnotation().isCompositeDataType()){
+            if (field.isComposite()){
                 ArrayList<FieldFactory> unsetSubFields = new ArrayList<>();
                 for (FieldFactory subfield: field.getSubfields()){
                     if (!(subfield.isSet())) unsetSubFields.add(subfield);
@@ -64,6 +63,9 @@ public class DataFactory {
         });
     }
 
+    /**
+     * @return остались ли неустановленные поля?
+     */
     public boolean hasUnsetFields() {
         for (FieldFactory field : this.fields.values())
             if (!(field.isSet())) return true;

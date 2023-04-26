@@ -1,4 +1,3 @@
-import Commands.Command;
 import Control.CollectionManager;
 import Control.CommandManager;
 import Control.IOManager;

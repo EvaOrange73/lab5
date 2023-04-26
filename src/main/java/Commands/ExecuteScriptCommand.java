@@ -3,9 +3,6 @@ package Commands;
 import Control.CollectionManager;
 import Control.CommandManager;
 import Control.IOManager;
-import InputExceptions.RecursionException;
-
-import java.io.FileNotFoundException;
 
 public class ExecuteScriptCommand extends CommandWithOneArgument {
 

@@ -58,11 +58,6 @@ public class MusicBand extends Data implements Comparable<MusicBand> {
     @FieldAnnotation(name = "лучший альбом", isCompositeDataType = true)
     private Album bestAlbum;
 
-    @Override
-    public String toString() {
-        return super.toString("Музыкальная группа");
-    }
-
     public MusicGenre getGenre() {
         return this.genre;
     }
@@ -71,12 +66,13 @@ public class MusicBand extends Data implements Comparable<MusicBand> {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getDescription() {
         return description;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString("Музыкальная группа");
     }
 
     @Override

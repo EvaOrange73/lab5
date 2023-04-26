@@ -39,7 +39,7 @@ public enum DataTypes { //TODO может сделать внутренним к
             return this.clazz.getDeclaredConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
                  InvocationTargetException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Не удалось создать пустой объект Data");
         }
     }
 
@@ -58,7 +58,6 @@ public enum DataTypes { //TODO может сделать внутренним к
                     throw new RuntimeException(e);
                 }
             }
-        System.out.println("Не нашлось соответствие"); //TODO убрать
-        return null;
+        throw new RuntimeException("Не удалось создать пустой объект Data");
     }
 }

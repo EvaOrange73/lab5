@@ -46,8 +46,4 @@ public class Album extends Data {
     public String toString() {
         return super.toString("Альбом");
     }
-
-    public long getSales() {
-        return sales;
-    }
 }
