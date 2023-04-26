@@ -4,7 +4,6 @@ import Data.Generation.IdGenerator;
 import Data.MusicBand;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Менеджер коллекции -- класс, осуществляющий работу с коллекцией:
@@ -59,19 +58,17 @@ public class CollectionManager {
     }
 
     public MusicBand getMaxElement() {
+        return this.collection.iterator().next();
+    }
+
+    public MusicBand getMinElement() {
         MusicBand maxMusicBand = null;
         for (MusicBand musicBand : this.collection)
             maxMusicBand = musicBand;
         return maxMusicBand;
     }
 
-    public MusicBand getMinElement() {
-        return this.collection.iterator().next();
-    }
-
-    private void sort() { //TODO ужс
-        List<MusicBand> collectionList = collection.stream().sorted(MusicBand::compareTo).collect(Collectors.toList());
-        Collections.reverse(collectionList);
-        collection = new LinkedHashSet<>(collectionList);
+    private void sort() {
+        collection = new LinkedHashSet<>(new TreeSet<>(collection));
     }
 }

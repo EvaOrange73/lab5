@@ -26,6 +26,10 @@ public class Album extends Data {
     @FieldAnnotation(name = "количество проданных копий", nullable = false, isValidate = true)
     private long sales;
 
+    public long getSales() {
+        return sales;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this) {
