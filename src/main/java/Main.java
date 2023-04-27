@@ -1,7 +1,7 @@
-import Control.CollectionManager;
-import Control.CommandManager;
-import Control.IOManager;
-import Control.StartFileManager;
+import control.CollectionManager;
+import control.CommandManager;
+import control.IOManager;
+import control.StartFileManager;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,8 +12,5 @@ public class Main {
         CommandManager commandManager = new CommandManager(ioManager, collectionManager);
         ioManager.setCommandManager(commandManager);
         ioManager.start();
-
-        //TODO пакеты с маленькой буквы
-        //TODO final переменные
     }
 }
