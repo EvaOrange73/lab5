@@ -57,7 +57,7 @@ public class IOManager {
         private void setNewFile(String path) throws RecursionException, FileNotFoundException {
             if (this.previousScanners.size() > 10) throw new RecursionException();
             this.previousScanners.push(this.scanner);
-            File file = new File("./src/main/resources/" + path + ".txt");
+            File file = new File(path);
             this.scanner = new Scanner(file);
         }
 
@@ -91,13 +91,13 @@ public class IOManager {
                 Здравствуйте! Предлагаю вам тестовые команды:
 
                 Вызов скрипта, содержащего все команды с корректными аргументами:
-                execute_script script_1
+                execute_script scripts/script_1.txt
                                 
                 некорректные аргументы:
-                execute_script script_2
+                execute_script scripts/script_2.txt
                                 
                 рекурсивный вызов скрипта:
-                execute_script script_3
+                execute_script scripts/script_3.txt
                                 
                 Полная справка по командам:
                 help

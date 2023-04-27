@@ -16,7 +16,7 @@ public class AddIfMaxCommand extends CommandWithoutArguments {
     public void execute() throws InputException {
         MusicBand musicBand = super.ioManager.askMusicBand();
         MusicBand maxElement = super.collectionManager.getMaxElement();
-        if (musicBand.compareTo(maxElement) > 0) {
+        if (musicBand.compareTo(maxElement) < 0) {
             super.collectionManager.add(musicBand);
             super.ioManager.print("элемент добавлен в коллекцию");
         } else {

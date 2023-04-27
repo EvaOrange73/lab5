@@ -16,11 +16,10 @@ import java.util.List;
  * Стартовый файл передается программе с помощью переменной окружения.
  */
 public class StartFileManager {
-    private String fileName;
+    private final String fileName;
 
     public StartFileManager(String fileName) {
-        this.fileName = "./src/main/resources/" + fileName;
-        System.out.println(this.fileName);
+        this.fileName = fileName;
     }
 
     /**
@@ -29,6 +28,7 @@ public class StartFileManager {
      */
     public void readStartFile(CollectionManager collectionManager) throws IOException {
         StringBuilder str = new StringBuilder();
+        if (fileName == null) throw new IOException();
         BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
         String currentLine = "";
         while ((currentLine = bufferedReader.readLine()) != null) {
@@ -46,11 +46,11 @@ public class StartFileManager {
      * @param collection коллекция, которая будет сохранена в файл.
      */
     public void save(LinkedHashSet<MusicBand> collection) throws IOException {
-        FileOutputStream fileOutputStream = new FileOutputStream(this.fileName, false);
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        byte[] buffer = gson.toJson(collection).getBytes();
-        fileOutputStream.write(buffer, 0, buffer.length);
-        fileOutputStream.close();
+        try (FileOutputStream fileOutputStream = new FileOutputStream(this.fileName, false)) {
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            byte[] buffer = gson.toJson(collection).getBytes();
+            fileOutputStream.write(buffer, 0, buffer.length);
+        }
     }
 }
