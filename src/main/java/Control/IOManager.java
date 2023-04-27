@@ -57,7 +57,7 @@ public class IOManager {
         private void setNewFile(String path) throws RecursionException, FileNotFoundException {
             if (this.previousScanners.size() > 10) throw new RecursionException();
             this.previousScanners.push(this.scanner);
-            File file = new File((new File("")).getAbsolutePath() + "/src/main/resources/" + path + ".txt");
+            File file = new File("./src/main/resources/" + path + ".txt");
             this.scanner = new Scanner(file);
         }
 
@@ -118,14 +118,18 @@ public class IOManager {
 
     /**
      * Запускает выполнение файла
+     *
      * @param path - путь до исполняемого файла
      */
     public void startExecuteScript(String path) {
         this.input = Input.SCRIPT;
         try {
             this.input.setNewFile(path);
-        } catch (RecursionException | FileNotFoundException e) { //TODO свой файл нот фаунд
+        } catch (RecursionException e) {
             print(e.toString());
+            this.input.continueExecutePreviousFile();
+        } catch (FileNotFoundException e) {
+            this.print("исполняемый файл не найден");
             this.input.continueExecutePreviousFile();
         }
         this.start();

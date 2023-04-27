@@ -19,7 +19,8 @@ public class StartFileManager {
     private String fileName;
 
     public StartFileManager(String fileName) {
-        this.fileName = (new File("")).getAbsolutePath() + "/src/main/resources/" + fileName;
+        this.fileName = "./src/main/resources/" + fileName;
+        System.out.println(this.fileName);
     }
 
     /**
