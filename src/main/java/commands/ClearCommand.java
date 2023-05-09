@@ -5,7 +5,7 @@ import control.IOManager;
 
 public class ClearCommand extends CommandWithoutArguments {
     public ClearCommand(IOManager ioManager, CollectionManager collectionManager) {
-        super("clear : очистить коллекцию", ioManager, collectionManager);
+        super("clear", " : очистить коллекцию", ioManager, collectionManager);
     }
 
     @Override

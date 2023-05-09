@@ -10,7 +10,7 @@ import java.util.LinkedHashSet;
 public class RemoveLowerCommand extends CommandWithoutArguments {
 
     public RemoveLowerCommand(IOManager ioManager, CollectionManager collectionManager) {
-        super("remove_lower {element} : удалить из коллекции все элементы, меньшие, чем заданный",
+        super("remove_lower", " {element} : удалить из коллекции все элементы, меньшие, чем заданный",
                 ioManager, collectionManager);
     }
 

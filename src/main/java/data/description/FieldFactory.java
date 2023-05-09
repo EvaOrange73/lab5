@@ -127,14 +127,16 @@ public class FieldFactory {
     /**
      * Установить введенное значение
      *
-     * @param answer значение, которое пользователь хочет установить в эо поле
+     * @param answer значение, которое пользователь хочет установить в это поле
      */
     public void setInput(Answer answer) {
-        this.input = answer.getAnswer();
-        if (this.annotation.isCompositeDataType()) {
-            setCompositeFieldOrException(answer);
-        } else {
-            setSimpleFieldOrException();
+        if (answer != null) {
+            this.input = answer.getAnswer();
+            if (this.annotation.isCompositeDataType()) {
+                setCompositeFieldOrException(answer);
+            } else {
+                setSimpleFieldOrException();
+            }
         }
     }
 
@@ -149,7 +151,7 @@ public class FieldFactory {
             }
             this.isSet = allSubfieldsSet;
             if (!(allSubfieldsSet)) {
-                this.exceptionMessage = "При вводе составного типа возникли ошибки в полях";
+                this.question.setExceptionMessage("При вводе составного типа возникли ошибки в полях");
             }
         }
     }

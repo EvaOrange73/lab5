@@ -8,7 +8,7 @@ import inputExceptions.InputException;
 public class AddIfMinCommand extends CommandWithoutArguments{
 
     public AddIfMinCommand(IOManager ioManager, CollectionManager collectionManager) {
-        super("add_if_min {element} : добавить новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции",
+        super("add_if_min", " {element} : добавить новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции",
                 ioManager, collectionManager);
     }
     @Override

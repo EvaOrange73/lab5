@@ -8,7 +8,7 @@ import inputExceptions.InputException;
 public class AddIfMaxCommand extends CommandWithoutArguments {
 
     public AddIfMaxCommand(IOManager ioManager, CollectionManager collectionManager) {
-        super("добавить новый элемент в коллекцию, если его значение превышает значение наибольшего элемента этой коллекции",
+        super("add_if_max", " {element} : добавить новый элемент в коллекцию, если его значение превышает значение наибольшего элемента этой коллекции",
                 ioManager, collectionManager);
     }
 

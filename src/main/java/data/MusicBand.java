@@ -77,7 +77,7 @@ public class MusicBand extends Data implements Comparable<MusicBand> {
 
     @Override
     public int compareTo(MusicBand o) {
-        if (this.bestAlbum != null) {
+        if (this.bestAlbum != null && o.bestAlbum != null) {
             long thisSales = this.bestAlbum.getSales();
             long thatSales = o.bestAlbum.getSales();
             if (!(thisSales == thatSales))

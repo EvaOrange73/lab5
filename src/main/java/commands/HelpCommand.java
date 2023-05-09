@@ -7,16 +7,16 @@ import control.IOManager;
 import java.util.HashMap;
 
 public class HelpCommand extends CommandWithoutArguments {
-    private HashMap<String, Command> commands;
+    private final CommandManager commandManager;
 
     public HelpCommand(IOManager ioManager, CollectionManager collectionManager, CommandManager commandManager) {
-        super("help : вывести справку по доступным командам", ioManager, collectionManager);
-        this.commands = commandManager.getCommands();
+        super("help", " : вывести справку по доступным командам", ioManager, collectionManager);
+        this.commandManager = commandManager;
     }
 
     @Override
     public void execute() {
-        for (Command command : this.commands.values()) {
+        for (Command command : this.commandManager.getCommands().values()) {
             super.ioManager.print(command.getDescription());
         }
     }

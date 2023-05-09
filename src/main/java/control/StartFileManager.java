@@ -4,6 +4,7 @@ import data.MusicBand;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import inputExceptions.EnvException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -24,11 +25,12 @@ public class StartFileManager {
 
     /**
      * @param collectionManager менеджер коллекции, в которую сохранятся считанные данные
-     * @throws IOException если файл не найден
+     * @throws IOException  если файл не найден
+     * @throws EnvException если не задана переменная окружения
      */
-    public void readStartFile(CollectionManager collectionManager) throws IOException {
+    public void readStartFile(CollectionManager collectionManager) throws IOException, EnvException {
         StringBuilder str = new StringBuilder();
-        if (fileName == null) throw new IOException();
+        if (fileName == null) throw new EnvException();
         BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
         String currentLine = "";
         while ((currentLine = bufferedReader.readLine()) != null) {
@@ -44,8 +46,11 @@ public class StartFileManager {
 
     /**
      * @param collection коллекция, которая будет сохранена в файл.
+     * @throws IOException  если файл не найден
+     * @throws EnvException если не задана переменная окружения
      */
-    public void save(LinkedHashSet<MusicBand> collection) throws IOException {
+    public void save(LinkedHashSet<MusicBand> collection) throws IOException, EnvException {
+        if (fileName == null) throw new EnvException();
         try (FileOutputStream fileOutputStream = new FileOutputStream(this.fileName, false)) {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();

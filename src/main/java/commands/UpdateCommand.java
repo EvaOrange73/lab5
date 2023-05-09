@@ -8,7 +8,7 @@ import inputExceptions.InputException;
 public class UpdateCommand extends CommandWithOneArgument {
 
     public UpdateCommand(IOManager ioManager, CollectionManager collectionManager) {
-        super("update id {element} : обновить значение элемента коллекции, id которого равен заданному",
+        super("update", " id {element} : обновить значение элемента коллекции, id которого равен заданному",
                 ioManager, collectionManager,
                 "id", "Integer");
     }

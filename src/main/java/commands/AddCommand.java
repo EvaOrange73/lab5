@@ -8,7 +8,7 @@ import inputExceptions.InputException;
 public class AddCommand extends CommandWithoutArguments {
 
     public AddCommand(IOManager ioManager, CollectionManager collectionManager) {
-        super("add {element} : добавить новый элемент в коллекцию", ioManager, collectionManager);
+        super("add", " {element} : добавить новый элемент в коллекцию", ioManager, collectionManager);
     }
 
     @Override

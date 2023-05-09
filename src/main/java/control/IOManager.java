@@ -5,6 +5,7 @@ import control.messages.Question;
 import data.description.DataFactory;
 import data.description.DataTypes;
 import data.MusicBand;
+import inputExceptions.EnvException;
 import inputExceptions.InputException;
 import inputExceptions.RecursionException;
 
@@ -86,18 +87,20 @@ public class IOManager {
             startFileManager.readStartFile(this.collectionManager);
         } catch (IOException e) {
             print("стартовый файл не найден");
+        } catch (EnvException e) {
+            print(e.toString());
         }
         if (this.input == Input.CONSOLE) print("""
                 Здравствуйте! Предлагаю вам тестовые команды:
 
                 Вызов скрипта, содержащего все команды с корректными аргументами:
-                execute_script scripts/script_1.txt
+                execute_script /home/studs/s388052/scripts/script_1.txt
                                 
                 некорректные аргументы:
-                execute_script scripts/script_2.txt
+                execute_script /home/studs/s388052/scripts/script_2.txt
                                 
                 рекурсивный вызов скрипта:
-                execute_script scripts/script_3.txt
+                execute_script /home/studs/s388052/scripts/script_3.txt
                                 
                 Полная справка по командам:
                 help
@@ -163,14 +166,14 @@ public class IOManager {
         HashMap<Integer, Answer> answers = new HashMap<>();
         questions.forEach((key, question) -> {
             if (this.input == Input.CONSOLE) this.print(question.getQuestion());
-            String answer = input.nextLine();
             if (question.isComposite()) {
+                String answer = question.isNullableComposite() ? input.nextLine() : "y";
                 Answer compositeAnswer = new Answer(answer, true);
                 if (answer.equals("y"))
                     compositeAnswer.addSubAnswers(askFields(question.getSubQuestions()));
                 answers.put(key, compositeAnswer);
             } else {
-                answers.put(key, new Answer(answer, false));
+                answers.put(key, new Answer(input.nextLine(), false));
             }
         });
         return answers;
@@ -200,6 +203,8 @@ public class IOManager {
             startFileManager.save(data);
         } catch (IOException e) {
             this.print("стартовый файл не найден");
+        } catch (EnvException e) {
+            this.print(e.toString());
         }
     }
 

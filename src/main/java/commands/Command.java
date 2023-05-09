@@ -8,11 +8,13 @@ import inputExceptions.InputException;
  * Абстрактный класс для команды
  */
 public abstract class Command {
+    protected String name;
     protected String description;
     protected IOManager ioManager;
     protected CollectionManager collectionManager;
 
-    Command(String description, IOManager ioManager, CollectionManager collectionManager) {
+    Command(String name, String description, IOManager ioManager, CollectionManager collectionManager) {
+        this.name = name;
         this.description = description;
         this.ioManager = ioManager;
         this.collectionManager = collectionManager;
@@ -37,8 +39,11 @@ public abstract class Command {
      * @return описание команды для help
      */
     String getDescription() {
-        return this.description;
+        return this.name + this.description;
     }
 
 
+    public String getName() {
+        return this.name;
+    }
 }

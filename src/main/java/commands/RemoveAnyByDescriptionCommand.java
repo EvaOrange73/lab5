@@ -7,7 +7,7 @@ import data.MusicBand;
 public class RemoveAnyByDescriptionCommand extends CommandWithOneArgument {
 
     public RemoveAnyByDescriptionCommand(IOManager ioManager, CollectionManager collectionManager) {
-        super("remove_any_by_description description : удалить из коллекции один элемент, значение поля description которого эквивалентно заданному",
+        super("remove_any_by_description", " description : удалить из коллекции один элемент, значение поля description которого эквивалентно заданному",
                 ioManager, collectionManager,
                 "description", "String");
     }

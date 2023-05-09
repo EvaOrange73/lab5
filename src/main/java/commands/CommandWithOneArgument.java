@@ -12,8 +12,8 @@ public abstract class CommandWithOneArgument extends Command {
     protected String argument;
     protected String type;
 
-    CommandWithOneArgument(String description, IOManager ioManager, CollectionManager collectionManager, String argument, String type) {
-        super(description, ioManager, collectionManager);
+    CommandWithOneArgument(String name, String description, IOManager ioManager, CollectionManager collectionManager, String argument, String type) {
+        super(name, description, ioManager, collectionManager);
         this.argument = argument;
         this.type = type;
     }

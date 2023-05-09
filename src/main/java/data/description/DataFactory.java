@@ -37,9 +37,9 @@ public class DataFactory {
         HashMap<Integer, Question> questions = new HashMap<>();
         this.fields.forEach((key, field) -> {
             Question question = field.getQuestion();
-            if (field.isComposite()){
+            if (field.isComposite()) {
                 ArrayList<FieldFactory> unsetSubFields = new ArrayList<>();
-                for (FieldFactory subfield: field.getSubfields()){
+                for (FieldFactory subfield : field.getSubfields()) {
                     if (!(subfield.isSet())) unsetSubFields.add(subfield);
                 }
                 question.setSubQuestions(unsetSubFields);
@@ -52,15 +52,13 @@ public class DataFactory {
 
     /**
      * Устанавливает поля по ответам пользователя
+     *
      * @param answers ответы пользователя. Ключи соответствуют ключам вопросов, на которые пользователь отвечал
      */
     public void setAnswers(HashMap<Integer, Answer> answers) {
-        answers.forEach((key, answer) -> {
-            FieldFactory field = this.fields.get(key);
-            if (answer != null) {
-                field.setInput(answer);
-            }
-        });
+        answers.forEach((key, answer) ->
+                this.fields.get(key).setInput(answer)
+        );
     }
 
     /**
@@ -72,9 +70,9 @@ public class DataFactory {
         return false;
     }
 
-    public String getExceptionsList(){
+    public String getExceptionsList() {
         String exceptions = "";
-        for (FieldFactory field: fields.values()) {
+        for (FieldFactory field : fields.values()) {
             if (!(field.isSet()))
                 exceptions += "\n" + field.getExceptionMessage();
         }

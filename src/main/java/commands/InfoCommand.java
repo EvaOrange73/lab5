@@ -7,7 +7,7 @@ public class InfoCommand extends CommandWithoutArguments {
 
 
     public InfoCommand(IOManager ioManager, CollectionManager collectionManager) {
-        super("info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)",
+        super("info", " : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)",
                 ioManager, collectionManager);
     }
 

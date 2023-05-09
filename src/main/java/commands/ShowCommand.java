@@ -7,7 +7,7 @@ import data.MusicBand;
 public class ShowCommand extends CommandWithoutArguments {
 
     public ShowCommand(IOManager ioManager, CollectionManager collectionManager) {
-        super("show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении",
+        super("show", " : вывести в стандартный поток вывода все элементы коллекции в строковом представлении",
                 ioManager, collectionManager);
     }
 

@@ -7,7 +7,7 @@ import data.MusicBand;
 public class FilterContainsDescriptionCommand extends CommandWithOneArgument {
 
     public FilterContainsDescriptionCommand(IOManager ioManager, CollectionManager collectionManager) {
-        super("filter_contains_description description : вывести элементы, значение поля description которых содержит заданную подстроку",
+        super("filter_contains_description", " description : вывести элементы, значение поля description которых содержит заданную подстроку",
                 ioManager, collectionManager,
                 "description", "String");
     }

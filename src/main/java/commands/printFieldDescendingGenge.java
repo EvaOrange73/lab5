@@ -7,10 +7,10 @@ import data.MusicGenre;
 
 import java.util.ArrayList;
 
-public class printFieldAscendingBestAlbumCommand extends CommandWithoutArguments {
+public class printFieldDescendingGenge extends CommandWithoutArguments {
 
-    public printFieldAscendingBestAlbumCommand(IOManager ioManager, CollectionManager collectionManager) {
-        super("print_field_descending_genre : вывести значения поля genre всех элементов в порядке убывания",
+    public printFieldDescendingGenge(IOManager ioManager, CollectionManager collectionManager) {
+        super("print_field_descending_genre", " : вывести значения поля genre всех элементов в порядке убывания",
                 ioManager, collectionManager);
     }
 

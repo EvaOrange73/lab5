@@ -8,7 +8,7 @@ import inputExceptions.TypeOfArgumentException;
 public class RemoveByIdCommand extends CommandWithOneArgument {
 
     public RemoveByIdCommand(IOManager ioManager, CollectionManager collectionManager) {
-        super("remove_by_id id : удалить элемент из коллекции по его id",
+        super("remove_by_id", " id : удалить элемент из коллекции по его id",
                 ioManager, collectionManager,
                 "id", "long");
     }

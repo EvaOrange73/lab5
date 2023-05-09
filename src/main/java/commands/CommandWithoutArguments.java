@@ -9,8 +9,8 @@ import inputExceptions.InputException;
  */
 public abstract class CommandWithoutArguments extends Command {
 
-    CommandWithoutArguments(String description, IOManager ioManager, CollectionManager collectionManager) {
-        super(description, ioManager, collectionManager);
+    CommandWithoutArguments(String name, String description, IOManager ioManager, CollectionManager collectionManager) {
+        super(name, description, ioManager, collectionManager);
     }
 
     @Override

@@ -6,7 +6,7 @@ import control.IOManager;
 public class SaveCommand extends CommandWithoutArguments {
 
     public SaveCommand(IOManager ioManager, CollectionManager collectionManager) {
-        super("save : сохранить коллекцию в файл", ioManager, collectionManager);
+        super("save", " : сохранить коллекцию в файл", ioManager, collectionManager);
     }
 
     @Override
