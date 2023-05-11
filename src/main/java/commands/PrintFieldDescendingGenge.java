@@ -7,9 +7,9 @@ import data.MusicGenre;
 
 import java.util.ArrayList;
 
-public class printFieldDescendingGenge extends CommandWithoutArguments {
+public class PrintFieldDescendingGenge extends CommandWithoutArguments {
 
-    public printFieldDescendingGenge(IOManager ioManager, CollectionManager collectionManager) {
+    public PrintFieldDescendingGenge(IOManager ioManager, CollectionManager collectionManager) {
         super("print_field_descending_genre", " : вывести значения поля genre всех элементов в порядке убывания",
                 ioManager, collectionManager);
     }

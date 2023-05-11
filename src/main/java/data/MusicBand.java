@@ -76,13 +76,15 @@ public class MusicBand extends Data implements Comparable<MusicBand> {
     }
 
     @Override
-    public int compareTo(MusicBand o) {
+    public int compareTo(MusicBand o) { // Должен вернуть 1, если this > o
         if (this.bestAlbum != null && o.bestAlbum != null) {
             long thisSales = this.bestAlbum.getSales();
             long thatSales = o.bestAlbum.getSales();
             if (!(thisSales == thatSales))
-                return Long.compare(thatSales, thisSales);
+                return Long.compare(thisSales, thatSales);
         }
+        if (this.bestAlbum == null) return -1;
+        if (o.bestAlbum == null) return 1;
         return this.name.compareTo(o.name);
     }
 

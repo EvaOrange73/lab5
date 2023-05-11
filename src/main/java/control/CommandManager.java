@@ -5,7 +5,6 @@ import inputExceptions.InputException;
 import inputExceptions.NoCommandException;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Менеджер команд -- класс, отвечающий за вызов метода, выполняющего переданную команду
@@ -35,7 +34,7 @@ public class CommandManager {
                 new RemoveLowerCommand(ioManager, collectionManager),
                 new RemoveAnyByDescriptionCommand(ioManager, collectionManager),
                 new FilterContainsDescriptionCommand(ioManager, collectionManager),
-                new printFieldDescendingGenge(ioManager, collectionManager))
+                new PrintFieldDescendingGenge(ioManager, collectionManager))
         );
         commands = commandsList.stream().collect(
                 LinkedHashMap::new,

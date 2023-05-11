@@ -19,7 +19,7 @@ public class RemoveLowerCommand extends CommandWithoutArguments {
         MusicBand musicBandReference = super.ioManager.askMusicBand();
         LinkedHashSet<MusicBand> musicBands = new LinkedHashSet<>(super.collectionManager.getCollection());
         for (MusicBand musicBand : musicBands) {
-            if (musicBandReference.compareTo(musicBand) > 0) {
+            if (musicBand.compareTo(musicBandReference) < 0) {
                 super.collectionManager.remove(musicBand);
             }
         }
