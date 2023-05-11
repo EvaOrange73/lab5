@@ -151,7 +151,7 @@ public class FieldFactory {
             }
             this.isSet = allSubfieldsSet;
             if (!(allSubfieldsSet)) {
-                this.question.setExceptionMessage("При вводе составного типа возникли ошибки в полях");
+                this.exceptionMessage = "При вводе составного типа возникли ошибки в полях";
             }
         }
     }
