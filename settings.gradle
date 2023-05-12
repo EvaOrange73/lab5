@@ -1,2 +1,8 @@
 rootProject.name = "lab5"
+include 'src:main:server'
+findProject(':src:main:server')?.name = 'server'
+include 'src:main:client'
+findProject(':src:main:client')?.name = 'client'
+include 'src:main:shared'
+findProject(':src:main:shared')?.name = 'shared'
 

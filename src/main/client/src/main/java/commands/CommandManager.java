@@ -1,0 +1,93 @@
+package commands;
+
+import IO.InputExceptions.ArgumentException;
+import IO.InputExceptions.FieldsException;
+import data.MusicBand;
+import IO.IOManager;
+import server.Request;
+import server.Response;
+import server.ServerManager;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+
+public class CommandManager {
+    private HashMap<String, CommandDescription> commands;
+    private IOManager ioManager;
+    private ServerManager serverManager;
+
+    public CommandManager(ArrayList<CommandDescription> serverCommands, ServerManager serverManager) {
+        ArrayList<CommandDescription> commands = new ArrayList<>(List.of(
+                new HelpCommand(this),
+                new ExitCommand(),
+                new ExecuteScriptCommand(ioManager, this)
+        ));
+        commands.addAll(serverCommands);
+        this.commands = commands.stream().collect(
+                LinkedHashMap::new,
+                (map, item) -> map.put(item.getName(), item),
+                (l, r) -> {
+                    throw new IllegalStateException("combiner not needed here");
+                }
+        );
+        this.serverManager = serverManager;
+    }
+
+    public HashMap<String, CommandDescription> getCommands() {
+        return commands;
+    }
+
+    public String execute(String input) {
+        String[] words = input.split(" ");
+        String commandName = words[0];
+        String argumentName = words.length == 1 ? null : words[1];
+        CommandDescription commandDescription = commands.get(commandName);
+        if (commandDescription == null) return "такой команды нет, \n" +
+                "Посмотрите список доступных команд: help";
+
+        Response response;
+
+        if (commandDescription instanceof ClientCommand)
+            response = ((ClientCommand) commandDescription).execute(new Request(commandName, argumentName));
+        else {
+            Request request;
+            try {
+                request = validateCommand(commandName, argumentName, commandDescription);
+            } catch (FieldsException e) {
+                return e.toString();
+            }
+            if (request == null) return (new ArgumentException(
+                    commandDescription.getArgumentName(),
+                    commandDescription.getArgumentType().toString())
+            ).toString();
+            response = serverManager.request(request);
+            if (response.hasException()) return "при выполнении команды возникла ошибка";
+        }
+        String answer = response.getText() + "\n";
+        for (MusicBand musicBand : response.getMusicBandAList()) {
+            answer += musicBand.toString() + "\n";
+        }
+        return answer;
+    }
+
+    private Request validateCommand(String commandName, String argumentName, CommandDescription commandDescription) throws FieldsException {
+        Request request = new Request(commandName);
+
+        if (commandDescription.getArgumentName() != null) {
+            if (argumentName == null)
+                return null;
+            Object argument = commandDescription.getArgumentType().validateType(argumentName);
+            if (argument == null)
+                return null;
+            request.setArgument(argument);
+        }
+
+        if (commandDescription.isNeedMusicBand()) {
+            request.setMusicBand(this.ioManager.askMusicBand());
+        }
+
+        return request;
+    }
+}
