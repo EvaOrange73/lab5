@@ -6,6 +6,9 @@ import commands.Command;
 
 import java.util.ArrayList;
 
+/**
+ * Менеджер клиента - класс, отвечающий за обработку запросов и отправку ответов клиентам
+ */
 public class ClientManager { //TODO
     CommandManager commandManager;
 

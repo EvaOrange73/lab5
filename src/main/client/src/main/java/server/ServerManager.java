@@ -5,6 +5,9 @@ import commands.CommandManager;
 
 import java.util.ArrayList;
 
+/**
+ * Менеджер сервера - класс, отвечающий за отправку запросов и получение ответов от сервера
+ */
 public class ServerManager { //TODO
 
     ServerManager(){

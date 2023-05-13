@@ -3,15 +3,13 @@ package IO;
 import IO.InputExceptions.FieldsException;
 import IO.InputExceptions.RecursionException;
 import commands.CommandManager;
+import data.MusicBand;
 import data.description.DataFactory;
 import data.description.DataTypes;
-import data.MusicBand;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -146,12 +144,12 @@ public class IOManager {
             if (this.input == Input.CONSOLE) this.print(question.getQuestion());
             if (question.isComposite()) {
                 String answer = question.isNullableComposite() ? input.nextLine() : "y";
-                Answer compositeAnswer = new Answer(answer, true);
+                Answer compositeAnswer = new Answer(answer);
                 if (answer.equals("y"))
                     compositeAnswer.addSubAnswers(askFields(question.getSubQuestions()));
                 answers.put(key, compositeAnswer);
             } else {
-                answers.put(key, new Answer(input.nextLine(), false));
+                answers.put(key, new Answer(input.nextLine()));
             }
         });
         return answers;

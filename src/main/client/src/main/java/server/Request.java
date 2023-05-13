@@ -2,6 +2,9 @@ package server;
 
 import data.MusicBand;
 
+/**
+ * Формат запросов к серверу
+ */
 public class Request {
     private String commandName;
     private Object argument;
@@ -28,10 +31,5 @@ public class Request {
 
     public void setMusicBand(MusicBand musicBand) {
         this.musicBand = musicBand;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString(); //TODO
     }
 }

@@ -4,7 +4,9 @@ import DTO.Request;
 import DTO.Response;
 import commands.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * Менеджер команд -- класс, отвечающий за вызов метода, выполняющего переданную команду
@@ -46,6 +48,11 @@ public class CommandManager {
         return (ArrayList<Command>) this.commands.values();
     } //TODO это ок?
 
+    /**
+     * Метод, вызывающий исполнение команды
+     * @param request запрос от клиента
+     * @return ответ от сервера
+     */
     public Response execute(Request request) {
         Command commandExecutor = commands.get(request.getCommandName());
         return commandExecutor.execute(request);

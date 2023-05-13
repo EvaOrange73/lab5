@@ -11,7 +11,7 @@ import java.util.Objects;
 /**
  * Типы данных - хранит подклассы Data, которые умеет обрабатывать DataFactory
  */
-public enum DataTypes {
+public enum DataTypes { //TODO может сделать внутренним классом Data?
     MUSIC_BAND("data.MusicBand", MusicBand.class),
     ALBUM("data.Album", Album.class),
     COORDINATES("data.Coordinates", Coordinates.class);

@@ -1,9 +1,16 @@
 package control;
 
-import data.generation.IdGenerator;
 import data.MusicBand;
+import data.description.FieldAnnotation;
+import data.generation.Generator;
+import data.generation.IdGenerator;
 
-import java.util.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.TreeSet;
 
 /**
  * Менеджер коллекции -- класс, осуществляющий работу с коллекцией:
@@ -53,6 +60,7 @@ public class CollectionManager {
     }
 
     public void add(MusicBand musicBand) {
+        this.generateFields(musicBand);
         collection.add(musicBand);
         this.sort();
     }
@@ -70,5 +78,27 @@ public class CollectionManager {
 
     private void sort() {
         collection = new LinkedHashSet<>(new TreeSet<>(collection));
+    }
+
+    private void generateFields(MusicBand musicBand) {
+        for (Field field : MusicBand.class.getDeclaredFields()) {
+            FieldAnnotation annotation = field.getAnnotation(FieldAnnotation.class);
+            if (annotation.isGenerate()) {
+                Generator generator;
+                try {
+                    generator = annotation.generator().getDeclaredConstructor().newInstance();
+                } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
+                         InvocationTargetException e) {
+                    throw new RuntimeException("Что-то пошло не так при генерации поля " + annotation.name() + "\n" + e);
+                }
+                Object value = generator.generate();
+                field.setAccessible(true);
+                try {
+                    field.set(musicBand, value);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException("Что-то пошло не так при установке поля " + annotation.name() + "\n" + e);
+                }
+            }
+        }
     }
 }

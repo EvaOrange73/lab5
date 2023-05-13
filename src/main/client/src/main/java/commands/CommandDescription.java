@@ -2,6 +2,9 @@ package commands;
 
 import data.description.Types;
 
+/**
+ * Описание команды
+ */
 public class CommandDescription {
     private String name;
     private String argumentName;

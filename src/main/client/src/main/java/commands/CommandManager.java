@@ -1,9 +1,9 @@
 package commands;
 
+import IO.IOManager;
 import IO.InputExceptions.ArgumentException;
 import IO.InputExceptions.FieldsException;
 import data.MusicBand;
-import IO.IOManager;
 import server.Request;
 import server.Response;
 import server.ServerManager;
@@ -13,11 +13,21 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+/**
+ * Менеджер команд -- класс, отвечающий за
+ * вызов метода, выполняющего переданную команду,
+ * или формирование запроса на сервер.
+ *
+ */
 public class CommandManager {
     private HashMap<String, CommandDescription> commands;
     private IOManager ioManager;
     private ServerManager serverManager;
 
+    /**
+     * @param serverCommands - список команд, пришедших с сервера
+     * @param serverManager - менеджер сервера
+     */
     public CommandManager(ArrayList<CommandDescription> serverCommands, ServerManager serverManager) {
         ArrayList<CommandDescription> commands = new ArrayList<>(List.of(
                 new HelpCommand(this),
@@ -35,10 +45,17 @@ public class CommandManager {
         this.serverManager = serverManager;
     }
 
+    /**
+     * @return список доступных команд для help
+     */
     public HashMap<String, CommandDescription> getCommands() {
         return commands;
     }
 
+    /**
+     * @param input команда, введенная пользователем
+     * @return о
+     */
     public String execute(String input) {
         String[] words = input.split(" ");
         String commandName = words[0];

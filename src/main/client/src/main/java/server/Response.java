@@ -4,10 +4,13 @@ import data.MusicBand;
 
 import java.util.ArrayList;
 
+/**
+ * Формат ответов от сервера
+ */
 public class Response {
-    private boolean exception;
-    private String text;
-    private ArrayList<MusicBand> musicBandAList;
+    private final boolean exception;
+    private final String text;
+    private final ArrayList<MusicBand> musicBandAList;
 
     public Response(boolean exception, String text, ArrayList<MusicBand> musicBandAList){
         this.exception = exception;
