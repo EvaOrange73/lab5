@@ -1,7 +1,8 @@
 package commands;
 
-import DTO.Request;
-import DTO.Response;
+import Control.CommandDescription;
+import Control.Request;
+import Control.Response;
 import control.CollectionManager;
 
 public class ClearCommand extends Command {

@@ -2,11 +2,9 @@ package control;
 
 import data.MusicBand;
 import data.description.FieldAnnotation;
-import data.generation.Generator;
-import data.generation.IdGenerator;
+import data.description.Generator;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -21,6 +19,27 @@ public class CollectionManager {
     private LinkedHashSet<MusicBand> collection = new LinkedHashSet<>();
     private final Date creationDate = new Date();
 
+    public class Generation {
+        static int nextId = 1;
+
+        public static void setNextId(int id) {
+            nextId = id;
+        }
+
+        public static Object generate(Generator generator) {
+            switch (generator) {
+                case ID_GENERATOR -> {
+                    nextId++;
+                    return nextId;
+                }
+                case DATA_GENERATOR -> {
+                    return new Date();
+                }
+                default -> throw new RuntimeException("что-то пошло не так при генерации поля");
+            }
+        }
+    }
+
     /**
      * Метод, заполняющий коллекцию элементами, считанными из стартового файла
      *
@@ -32,7 +51,7 @@ public class CollectionManager {
         int maxId = 0;
         for (MusicBand musicBand : collection)
             if (musicBand.getId() > maxId) maxId = musicBand.getId();
-        IdGenerator.setNextId(maxId + 1);
+        Generation.setNextId(maxId + 1);
     }
 
     public LinkedHashSet<MusicBand> getCollection() {
@@ -84,14 +103,7 @@ public class CollectionManager {
         for (Field field : MusicBand.class.getDeclaredFields()) {
             FieldAnnotation annotation = field.getAnnotation(FieldAnnotation.class);
             if (annotation.isGenerate()) {
-                Generator generator;
-                try {
-                    generator = annotation.generator().getDeclaredConstructor().newInstance();
-                } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
-                         InvocationTargetException e) {
-                    throw new RuntimeException("Что-то пошло не так при генерации поля " + annotation.name() + "\n" + e);
-                }
-                Object value = generator.generate();
+                Object value = Generation.generate(annotation.generator());
                 field.setAccessible(true);
                 try {
                     field.set(musicBand, value);

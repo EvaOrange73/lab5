@@ -1,9 +1,11 @@
 package commands;
 
-import DTO.Request;
-import DTO.Response;
+import Control.CommandDescription;
+import Control.Request;
+import Control.Response;
 import control.CollectionManager;
 import data.MusicBand;
+import data.description.Types;
 
 public class RemoveAnyByDescriptionCommand extends Command {
 
@@ -12,7 +14,7 @@ public class RemoveAnyByDescriptionCommand extends Command {
                         "remove_any_by_description",
                         " description : удалить из коллекции один элемент, значение поля description которого эквивалентно заданному",
                         "description",
-                        "String"),
+                        Types.STRING),
                 collectionManager);
     }
 

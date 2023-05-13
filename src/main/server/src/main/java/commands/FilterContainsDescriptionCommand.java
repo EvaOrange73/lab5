@@ -1,9 +1,11 @@
 package commands;
 
-import DTO.Request;
-import DTO.Response;
+import Control.CommandDescription;
+import Control.Request;
+import Control.Response;
 import control.CollectionManager;
 import data.MusicBand;
+import data.description.Types;
 
 import java.util.ArrayList;
 
@@ -14,7 +16,7 @@ public class FilterContainsDescriptionCommand extends Command {
                         "filter_contains_description",
                         " description : вывести элементы, значение поля description которых содержит заданную подстроку",
                         "description",
-                        "String"
+                        Types.STRING
                 ),
                 collectionManager);
     }

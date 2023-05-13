@@ -1,19 +1,22 @@
 package commands;
 
-import DTO.Request;
-import DTO.Response;
+import Control.CommandDescription;
+import Control.Request;
+import Control.Response;
 import control.CollectionManager;
 import data.MusicBand;
+import data.description.Types;
 
 public class UpdateCommand extends Command {
 
     public UpdateCommand(CollectionManager collectionManager) {
         super(new CommandDescription(
                         "update",
-                        " id {element} : обновить значение элемента коллекции, id которого равен заданному",
                         "id",
-                        "Integer",
-                        true),
+                        Types.INTEGER,
+                        true,
+                        " id {element} : обновить значение элемента коллекции, id которого равен заданному"
+                ),
                 collectionManager
         );
     }

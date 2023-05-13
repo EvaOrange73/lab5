@@ -1,8 +1,9 @@
 package commands;
 
+import Control.CommandDescription;
 import data.description.Types;
-import server.Request;
-import server.Response;
+import Control.Request;
+import Control.Response;
 
 /**
  * Команды, которые клиент выполняет самостоятельно, не спрашивая сервер: help, exit, execute_script

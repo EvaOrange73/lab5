@@ -37,6 +37,11 @@ public @interface FieldAnnotation {
     boolean isGenerate() default false;
 
     /**
+     * @return класс, выполняющий генерацию поля
+     */
+    Generator generator() default Generator.DEFAULT;
+
+    /**
      * @return поле - объект составного типа? (Coordinates, Album)
      */
     boolean isCompositeDataType() default false;

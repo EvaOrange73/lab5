@@ -1,11 +1,12 @@
 package commands;
 
+import Control.CommandDescription;
 import IO.IOManager;
 import IO.InputExceptions.ArgumentException;
 import IO.InputExceptions.FieldsException;
 import data.MusicBand;
-import server.Request;
-import server.Response;
+import Control.Request;
+import Control.Response;
 import server.ServerManager;
 
 import java.util.ArrayList;

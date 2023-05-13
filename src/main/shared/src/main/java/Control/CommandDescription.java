@@ -1,4 +1,4 @@
-package commands;
+package Control;
 
 import data.description.Types;
 
@@ -20,6 +20,19 @@ public class CommandDescription {
         this.description = description;
     }
 
+    public CommandDescription(String name, String description, boolean needMusicBand) {
+        this(name, null, null, needMusicBand, description);
+    }
+
+    public CommandDescription(String name, String description, String argumentName, Types argumentType) {
+        this(name, argumentName, argumentType, false, description);
+    }
+
+    public CommandDescription(String name, String description) {
+        this(name, null, null, false, description);
+    }
+
+
     public String getName() {
         return name;
     }
@@ -39,4 +52,5 @@ public class CommandDescription {
     public boolean isNeedMusicBand() {
         return needMusicBand;
     }
+
 }

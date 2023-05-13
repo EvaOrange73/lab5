@@ -2,6 +2,7 @@ package data;
 
 import data.description.Data;
 import data.description.FieldAnnotation;
+import data.description.Generator;
 
 import java.util.Objects;
 
@@ -11,7 +12,7 @@ public class MusicBand extends Data implements Comparable<MusicBand> {
      * Значение этого поля должно быть уникальным,
      * Значение этого поля должно генерироваться автоматически
      */
-    @FieldAnnotation(name = "id", isGenerate = true)
+    @FieldAnnotation(name = "id", isGenerate = true, generator = Generator.ID_GENERATOR)
     private Integer id;
     /**
      * Поле не может быть null,
@@ -28,7 +29,7 @@ public class MusicBand extends Data implements Comparable<MusicBand> {
      * Поле не может быть null,
      * Значение этого поля должно генерироваться автоматически
      */
-    @FieldAnnotation(name = "дата добавления в базу", isGenerate = true)
+    @FieldAnnotation(name = "дата добавления в базу", isGenerate = true, generator = Generator.DATA_GENERATOR)
     private java.util.Date creationDate;
     /**
      * Значение поля должно быть больше 0

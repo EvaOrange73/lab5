@@ -1,4 +1,4 @@
-package server;
+package Control;
 
 import data.MusicBand;
 
@@ -31,5 +31,13 @@ public class Request {
 
     public void setMusicBand(MusicBand musicBand) {
         this.musicBand = musicBand;
+    }
+
+    public String getCommandName() {
+        return this.commandName;
+    }
+
+    public MusicBand getMusicBand() {
+        return this.musicBand;
     }
 }

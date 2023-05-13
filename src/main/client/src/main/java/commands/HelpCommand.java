@@ -1,8 +1,9 @@
 package commands;
 
 
-import server.Request;
-import server.Response;
+import Control.CommandDescription;
+import Control.Request;
+import Control.Response;
 
 public class HelpCommand extends ClientCommand {
     private final CommandManager commandManager;

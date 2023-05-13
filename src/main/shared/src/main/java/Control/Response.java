@@ -1,8 +1,9 @@
-package server;
+package Control;
 
 import data.MusicBand;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Формат ответов от сервера
@@ -24,6 +25,13 @@ public class Response {
 
     public Response(String text){
         this(false, text, null);
+    }
+
+    public Response(ArrayList<MusicBand> musicBandAList){
+        this(false, "", musicBandAList);
+    }
+    public Response(MusicBand musicBand){
+        this(false, "", new ArrayList<>(List.of(musicBand)));
     }
 
     public boolean hasException() {

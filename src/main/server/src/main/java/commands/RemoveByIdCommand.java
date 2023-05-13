@@ -1,9 +1,11 @@
 package commands;
 
-import DTO.Request;
-import DTO.Response;
+import Control.CommandDescription;
+import Control.Request;
+import Control.Response;
 import control.CollectionManager;
 import data.MusicBand;
+import data.description.Types;
 
 public class RemoveByIdCommand extends Command {
 
@@ -11,7 +13,9 @@ public class RemoveByIdCommand extends Command {
         super(new CommandDescription(
                         "remove_by_id",
                         " id : удалить элемент из коллекции по его id",
-                        "id", "long"),
+                        "id",
+                        Types.LONG
+                ),
                 collectionManager
         );
     }

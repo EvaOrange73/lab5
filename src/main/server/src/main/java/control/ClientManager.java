@@ -1,7 +1,7 @@
 package control;
 
-import DTO.Request;
-import DTO.Response;
+import Control.Request;
+import Control.Response;
 import commands.Command;
 
 import java.util.ArrayList;
