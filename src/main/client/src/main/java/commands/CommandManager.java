@@ -21,9 +21,9 @@ import java.util.List;
  *
  */
 public class CommandManager {
-    private HashMap<String, CommandDescription> commands;
+    private final HashMap<String, CommandDescription> commands;
     private IOManager ioManager;
-    private ServerManager serverManager;
+    private final ServerManager serverManager;
 
     /**
      * @param serverCommands - список команд, пришедших с сервера
@@ -83,11 +83,11 @@ public class CommandManager {
             response = serverManager.request(request);
             if (response.hasException()) return "при выполнении команды возникла ошибка";
         }
-        String answer = response.getText() + "\n";
+        StringBuilder answer = new StringBuilder(response.getText() + "\n");
         for (MusicBand musicBand : response.getMusicBandAList()) {
-            answer += musicBand.toString() + "\n";
+            answer.append(musicBand.toString()).append("\n");
         }
-        return answer;
+        return answer.toString();
     }
 
     private Request validateCommand(String commandName, String argumentName, CommandDescription commandDescription) throws FieldsException {

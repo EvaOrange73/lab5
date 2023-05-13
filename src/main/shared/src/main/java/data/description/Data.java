@@ -8,16 +8,16 @@ import java.lang.reflect.Field;
  */
 public class Data {
     public String toString(String className) {
-        String str = className + ": \n";
+        StringBuilder str = new StringBuilder(className + ": \n");
         for (Field field : this.getClass().getDeclaredFields()) {
-            str += "    " + field.getAnnotation(FieldAnnotation.class).name() + ": ";
+            str.append("    ").append(field.getAnnotation(FieldAnnotation.class).name()).append(": ");
             field.setAccessible(true);
             try {
-                str += field.get(this) + "\n";
+                str.append(field.get(this)).append("\n");
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
         }
-        return str;
+        return str.toString();
     }
 }

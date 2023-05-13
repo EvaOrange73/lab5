@@ -15,7 +15,7 @@ public class CommandManager {
     /**
      * Словарь, сопоставляющий название команды и класс, отвечающий за её исполнение
      */
-    private LinkedHashMap<String, Command> commands;
+    private final LinkedHashMap<String, Command> commands;
 
     public CommandManager(CollectionManager collectionManager) {
         ArrayList<Command> commandsList = new ArrayList<>(List.of(

@@ -6,7 +6,7 @@ import data.MusicBand;
  * Формат запросов к серверу
  */
 public class Request {
-    private String commandName;
+    private final String commandName;
     private Object argument;
     private MusicBand musicBand;
 

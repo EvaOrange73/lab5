@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public class DataFactory {
 
-    Data object;
+    final Data object;
     private final HashMap<Integer, FieldFactory> fields;
 
     public DataFactory(DataTypes dataType) {
@@ -71,12 +71,12 @@ public class DataFactory {
     }
 
     public String getExceptionsList() {
-        String exceptions = "";
+        StringBuilder exceptions = new StringBuilder();
         for (FieldFactory field : fields.values()) {
             if (!(field.isSet()))
-                exceptions += "\n" + field.getExceptionMessage();
+                exceptions.append("\n").append(field.getExceptionMessage());
         }
-        return exceptions;
+        return exceptions.toString();
     }
 
     /**

@@ -25,10 +25,10 @@ public class PrintFieldDescendingGenge extends Command {
             genres.add(musicBand.getGenre());
         }
         genres.sort(MusicGenre::compareTo);
-        String genresText = "";
+        StringBuilder genresText = new StringBuilder();
         for (MusicGenre genre : genres)
-            genresText += genre.toString();
-        return new Response(genresText);
+            genresText.append(genre.toString());
+        return new Response(genresText.toString());
     }
 
 }

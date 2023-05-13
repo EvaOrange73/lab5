@@ -78,7 +78,7 @@ public enum Types {
         }
     };
 
-    String[] typeNames;
+    final String[] typeNames;
 
     Types(String[] typeNames) {
         this.typeNames = typeNames;

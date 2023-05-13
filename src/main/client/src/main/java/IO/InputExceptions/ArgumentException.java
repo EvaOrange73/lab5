@@ -1,8 +1,8 @@
 package IO.InputExceptions;
 
 public class ArgumentException {
-    private String argument;
-    private String type;
+    private final String argument;
+    private final String type;
 
     public ArgumentException(String argument, String type) {
         this.argument = argument;

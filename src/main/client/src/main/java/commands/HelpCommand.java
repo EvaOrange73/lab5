@@ -15,11 +15,11 @@ public class HelpCommand extends ClientCommand {
 
     @Override
     public Response execute(Request request) {
-        String response = "";
+        StringBuilder response = new StringBuilder();
         for (CommandDescription command : this.commandManager.getCommands().values()) {
-            response += command.getDescription();
+            response.append(command.getDescription());
         }
-        return new Response(response);
+        return new Response(response.toString());
     }
 
 }

@@ -7,8 +7,8 @@ import Control.Response;
 
 public class ExecuteScriptCommand extends ClientCommand {
 
-    private CommandManager commandManager;
-    private IOManager ioManager;
+    private final CommandManager commandManager;
+    private final IOManager ioManager;
 
     public ExecuteScriptCommand(IOManager ioManager, CommandManager commandManager) {
         super("execute_script",

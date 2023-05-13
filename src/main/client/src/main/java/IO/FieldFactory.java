@@ -91,12 +91,12 @@ public class FieldFactory {
      * и его подполях, если поле - объект составного типа
      */
     public String getExceptionMessage() {
-        String exception = this.exceptionMessage;
+        StringBuilder exception = new StringBuilder(this.exceptionMessage);
         for (FieldFactory subfield : subfields) {
             if (!(subfield.isSet) && subfield.getExceptionMessage() != null)
-                exception += "\n    " + subfield.getExceptionMessage();
+                exception.append("\n    ").append(subfield.getExceptionMessage());
         }
-        return exception;
+        return exception.toString();
     }
 
     /**

@@ -1,7 +1,7 @@
 package IO.InputExceptions;
 
 public class FieldsException extends Exception{
-    String text;
+    final String text;
     public FieldsException(String exceptions){
         this.text = "Не все поля введены верно" + exceptions;
     }

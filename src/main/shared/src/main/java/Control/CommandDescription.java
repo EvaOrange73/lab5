@@ -6,11 +6,11 @@ import data.description.Types;
  * Описание команды
  */
 public class CommandDescription {
-    private String name;
-    private String argumentName;
-    private Types argumentType; //TODO enum
-    private boolean needMusicBand;
-    private String description;
+    private final String name;
+    private final String argumentName;
+    private final Types argumentType;
+    private final boolean needMusicBand;
+    private final String description;
 
     public CommandDescription(String name, String argumentName, Types argumentType, boolean needMusicBand, String description) {
         this.name = name;

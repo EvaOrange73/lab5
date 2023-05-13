@@ -19,7 +19,7 @@ public class CollectionManager {
     private LinkedHashSet<MusicBand> collection = new LinkedHashSet<>();
     private final Date creationDate = new Date();
 
-    public class Generation {
+    public static class Generation {
         static int nextId = 1;
 
         public static void setNextId(int id) {
