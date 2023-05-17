@@ -10,7 +10,7 @@ public class InfoCommand extends Command {
     public InfoCommand(CollectionManager collectionManager) {
         super(new CommandDescription(
                 "info",
-                " : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)"
+                "вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)"
         ), collectionManager);
     }
 

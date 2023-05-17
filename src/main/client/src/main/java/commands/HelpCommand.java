@@ -9,7 +9,7 @@ public class HelpCommand extends ClientCommand {
     private final CommandManager commandManager;
 
     public HelpCommand(CommandManager commandManager) {
-        super("help", " : вывести справку по доступным командам");
+        super("help", "вывести справку по доступным командам");
         this.commandManager = commandManager;
     }
 
@@ -17,7 +17,7 @@ public class HelpCommand extends ClientCommand {
     public Response execute(Request request) {
         StringBuilder response = new StringBuilder();
         for (CommandDescription command : this.commandManager.getCommands().values()) {
-            response.append(command.getDescription());
+            response.append(command.getDescription() + "\n");
         }
         return new Response(response.toString());
     }

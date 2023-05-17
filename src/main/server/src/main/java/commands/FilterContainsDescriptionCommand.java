@@ -14,7 +14,7 @@ public class FilterContainsDescriptionCommand extends Command {
     public FilterContainsDescriptionCommand(CollectionManager collectionManager) {
         super(new CommandDescription(
                         "filter_contains_description",
-                        " description : вывести элементы, значение поля description которых содержит заданную подстроку",
+                        "вывести элементы, значение поля description которых содержит заданную подстроку",
                         "description",
                         Types.STRING
                 ),

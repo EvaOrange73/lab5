@@ -40,8 +40,13 @@ public class CommandDescription implements Serializable {
     }
 
     public String getDescription() {
+        String description = this.name;
+        if (this.argumentName != null) description += " " + this.argumentName;
+        if (this.needMusicBand) description += " {element}";
+        description += " : ";
+        description += this.description;
         return description;
-    } //TODO argument name
+    }
 
     public String getArgumentName() {
         return argumentName;

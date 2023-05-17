@@ -12,9 +12,9 @@ public class ExecuteScriptCommand extends ClientCommand {
 
     public ExecuteScriptCommand(IOManager ioManager, CommandManager commandManager) {
         super("execute_script",
-                "Имя файла",
+                "file_name",
                 Types.STRING,
-                " file_name : считать и исполнить скрипт из указанного файла. " +
+                "считать и исполнить скрипт из указанного файла. " +
                         "В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме."
 
         );

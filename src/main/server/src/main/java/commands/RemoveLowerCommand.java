@@ -11,7 +11,7 @@ import java.util.LinkedHashSet;
 public class RemoveLowerCommand extends Command {
 
     public RemoveLowerCommand(CollectionManager collectionManager) {
-        super(new CommandDescription("remove_lower", " {element} : удалить из коллекции все элементы, меньшие, чем заданный",
+        super(new CommandDescription("remove_lower", "удалить из коллекции все элементы, меньшие, чем заданный",
                 true), collectionManager);
     }
 

@@ -15,7 +15,7 @@ public class UpdateCommand extends Command {
                         "id",
                         Types.INTEGER,
                         true,
-                        " id {element} : обновить значение элемента коллекции, id которого равен заданному"
+                        "обновить значение элемента коллекции, id которого равен заданному"
                 ),
                 collectionManager
         );

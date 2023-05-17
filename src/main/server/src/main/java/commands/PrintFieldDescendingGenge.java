@@ -14,7 +14,7 @@ public class PrintFieldDescendingGenge extends Command {
     public PrintFieldDescendingGenge(CollectionManager collectionManager) {
         super(new CommandDescription(
                 "print_field_descending_genre",
-                " : вывести значения поля genre всех элементов в порядке убывания"
+                "вывести значения поля genre всех элементов в порядке убывания"
         ), collectionManager);
     }
 

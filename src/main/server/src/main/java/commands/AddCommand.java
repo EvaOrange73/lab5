@@ -8,7 +8,7 @@ import control.CollectionManager;
 public class AddCommand extends Command {
 
     public AddCommand(CollectionManager collectionManager) {
-        super(new CommandDescription("add", " {element} : добавить новый элемент в коллекцию", true), collectionManager);
+        super(new CommandDescription("add", "добавить новый элемент в коллекцию", true), collectionManager);
     }
 
     @Override

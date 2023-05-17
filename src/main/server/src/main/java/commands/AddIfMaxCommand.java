@@ -11,7 +11,7 @@ public class AddIfMaxCommand extends Command {
     public AddIfMaxCommand(CollectionManager collectionManager) {
         super(new CommandDescription(
                         "add_if_max",
-                        " {element} : добавить новый элемент в коллекцию, если его значение превышает значение наибольшего элемента этой коллекции",
+                        "добавить новый элемент в коллекцию, если его значение превышает значение наибольшего элемента этой коллекции",
                         true
                 ),
                 collectionManager);

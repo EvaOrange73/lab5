@@ -12,7 +12,7 @@ public class RemoveAnyByDescriptionCommand extends Command {
     public RemoveAnyByDescriptionCommand(CollectionManager collectionManager) {
         super(new CommandDescription(
                         "remove_any_by_description",
-                        " description : удалить из коллекции один элемент, значение поля description которого эквивалентно заданному",
+                        "удалить из коллекции один элемент, значение поля description которого эквивалентно заданному",
                         "description",
                         Types.STRING),
                 collectionManager);

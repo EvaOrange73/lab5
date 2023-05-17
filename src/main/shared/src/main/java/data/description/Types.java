@@ -31,7 +31,7 @@ public enum Types implements Serializable {
 
         @Override
         public boolean checkMoreThen(Object input, int moreThen) {
-            return ((int) input < moreThen);
+            return ((int) input > moreThen);
         }
     },
     LONG(new String[]{"long", "java.lang.Long"}) {
@@ -46,7 +46,7 @@ public enum Types implements Serializable {
 
         @Override
         public boolean checkMoreThen(Object input, int moreThen) {
-            return ((long) input < (long) moreThen);
+            return ((long) input > (long) moreThen);
         }
     },
     FLOAT(new String[]{"float", "java.lang.Float"}) {
@@ -61,7 +61,7 @@ public enum Types implements Serializable {
 
         @Override
         public boolean checkMoreThen(Object input, int moreThen) {
-            return ((float) input < (float) moreThen);
+            return ((float) input > (float) moreThen);
         }
     },
     MUSIC_GENRE(new String[]{"data.MusicGenre"}) {

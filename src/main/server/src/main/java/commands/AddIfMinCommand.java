@@ -11,7 +11,7 @@ public class AddIfMinCommand extends Command {
     public AddIfMinCommand(CollectionManager collectionManager) {
         super(new CommandDescription(
                         "add_if_min",
-                        " {element} : добавить новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции",
+                        "добавить новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции",
                         true
                 ),
                 collectionManager);

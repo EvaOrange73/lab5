@@ -12,7 +12,7 @@ public class RemoveByIdCommand extends Command {
     public RemoveByIdCommand(CollectionManager collectionManager) {
         super(new CommandDescription(
                         "remove_by_id",
-                        " id : удалить элемент из коллекции по его id",
+                        "удалить элемент из коллекции по его id",
                         "id",
                         Types.LONG
                 ),

@@ -12,7 +12,7 @@ public class ShowCommand extends Command {
     public ShowCommand(CollectionManager collectionManager) {
         super(new CommandDescription(
                         "show",
-                        " : вывести в стандартный поток вывода все элементы коллекции в строковом представлении"),
+                        "вывести в стандартный поток вывода все элементы коллекции в строковом представлении"),
                 collectionManager);
     }
 

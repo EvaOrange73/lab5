@@ -5,7 +5,7 @@ import Control.Response;
 
 public class ExitCommand extends ClientCommand {
     public ExitCommand() {
-        super("exit", " : завершить программу (без сохранения в файл)");
+        super("exit", "завершить программу (без сохранения в файл)");
     }
 
     @Override

@@ -9,7 +9,7 @@ public class ClearCommand extends Command {
     public ClearCommand(CollectionManager collectionManager) {
         super(new CommandDescription(
                         "clear",
-                        " : очистить коллекцию"
+                        "очистить коллекцию"
                         ),
                 collectionManager);
     }
