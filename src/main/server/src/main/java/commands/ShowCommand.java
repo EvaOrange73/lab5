@@ -4,8 +4,10 @@ import Control.CommandDescription;
 import Control.Request;
 import Control.Response;
 import control.CollectionManager;
+import data.MusicBand;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 public class ShowCommand extends Command {
 
@@ -18,6 +20,8 @@ public class ShowCommand extends Command {
 
     @Override
     public Response execute(Request request) {
-        return new Response(new ArrayList<>(this.collectionManager.getCollection()));
+        LinkedHashSet<MusicBand> collection = this.collectionManager.getCollection();
+        if (collection.isEmpty()) return new Response("Коллекция пуста");
+        return new Response(new ArrayList<>(collection));
     }
 }

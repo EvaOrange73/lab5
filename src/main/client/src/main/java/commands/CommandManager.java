@@ -94,11 +94,12 @@ public class CommandManager {
             }
             if (response.hasException()) return "при выполнении команды возникла ошибка";
         }
-        StringBuilder answer = new StringBuilder(response.getText() + "\n");
+        StringBuilder answer = new StringBuilder(response.getText());
         if (response.getMusicBandAList() != null)
             for (MusicBand musicBand : response.getMusicBandAList()) {
-                answer.append(musicBand.toString()).append("\n");
+                answer.append("\n").append(musicBand.toString());
             }
+        answer.append("\n").append("команда ").append(commandName).append(" завершена");
         return answer.toString();
     }
 
