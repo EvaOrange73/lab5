@@ -1,12 +1,12 @@
 package commands;
 
-import Control.CommandDescription;
+import сontrol.CommandDescription;
 import IO.IOManager;
 import IO.InputExceptions.ArgumentException;
 import IO.InputExceptions.FieldsException;
 import data.MusicBand;
-import Control.Request;
-import Control.Response;
+import сontrol.Request;
+import сontrol.Response;
 import server.ServerManager;
 
 import java.io.IOException;
@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class CommandManager {
     private final HashMap<String, CommandDescription> commands;
-    private IOManager ioManager;
+    private final IOManager ioManager;
     private final ServerManager serverManager;
 
     /**
@@ -34,7 +34,7 @@ public class CommandManager {
         ArrayList<CommandDescription> commands = new ArrayList<>(List.of(
                 new HelpCommand(this),
                 new ExitCommand(),
-                new ExecuteScriptCommand(ioManager, this)
+                new ExecuteScriptCommand(ioManager)
         ));
         if (serverManager != null) {
             try {

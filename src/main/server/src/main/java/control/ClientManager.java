@@ -1,6 +1,6 @@
 package control;
 
-import Control.Request;
+import сontrol.Request;
 import exceptions.EnvException;
 
 import java.io.IOException;
@@ -13,13 +13,11 @@ import java.net.Socket;
  * Менеджер клиента - класс, отвечающий за обработку запросов и отправку ответов клиентам
  */
 public class ClientManager {
-    private CommandManager commandManager;
-    private int port;
-    private ServerSocket serverSocket;
+    private final CommandManager commandManager;
+    private final ServerSocket serverSocket;
 
     public ClientManager(int port, CommandManager commandManager) {
         this.commandManager = commandManager;
-        this.port = port;
         try {
             this.serverSocket = new ServerSocket(port);
         } catch (IOException e) {

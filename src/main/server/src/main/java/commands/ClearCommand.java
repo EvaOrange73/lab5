@@ -1,8 +1,8 @@
 package commands;
 
-import Control.CommandDescription;
-import Control.Request;
-import Control.Response;
+import сontrol.CommandDescription;
+import сontrol.Request;
+import сontrol.Response;
 import control.CollectionManager;
 
 public class ClearCommand extends Command {

@@ -1,4 +1,4 @@
-package Control;
+package сontrol;
 
 import data.description.Types;
 

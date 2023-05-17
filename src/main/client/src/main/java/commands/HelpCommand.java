@@ -1,9 +1,9 @@
 package commands;
 
 
-import Control.CommandDescription;
-import Control.Request;
-import Control.Response;
+import сontrol.CommandDescription;
+import сontrol.Request;
+import сontrol.Response;
 
 public class HelpCommand extends ClientCommand {
     private final CommandManager commandManager;
@@ -17,7 +17,7 @@ public class HelpCommand extends ClientCommand {
     public Response execute(Request request) {
         StringBuilder response = new StringBuilder();
         for (CommandDescription command : this.commandManager.getCommands().values()) {
-            response.append(command.getDescription() + "\n");
+            response.append(command.getDescription()).append("\n");
         }
         return new Response(response.toString());
     }

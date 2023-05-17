@@ -2,15 +2,14 @@ package commands;
 
 import IO.IOManager;
 import data.description.Types;
-import Control.Request;
-import Control.Response;
+import сontrol.Request;
+import сontrol.Response;
 
 public class ExecuteScriptCommand extends ClientCommand {
 
-    private final CommandManager commandManager;
     private final IOManager ioManager;
 
-    public ExecuteScriptCommand(IOManager ioManager, CommandManager commandManager) {
+    public ExecuteScriptCommand(IOManager ioManager) {
         super("execute_script",
                 "file_name",
                 Types.STRING,
@@ -18,7 +17,6 @@ public class ExecuteScriptCommand extends ClientCommand {
                         "В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме."
 
         );
-        this.commandManager = commandManager;
         this.ioManager = ioManager;
     }
 

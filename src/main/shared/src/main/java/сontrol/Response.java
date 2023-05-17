@@ -1,10 +1,9 @@
-package Control;
+package сontrol;
 
 import data.MusicBand;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Формат ответов от сервера
@@ -30,9 +29,6 @@ public class Response implements Serializable {
 
     public Response(ArrayList<MusicBand> musicBandAList){
         this(false, "", musicBandAList);
-    }
-    public Response(MusicBand musicBand){
-        this(false, "", new ArrayList<>(List.of(musicBand)));
     }
 
     public boolean hasException() {

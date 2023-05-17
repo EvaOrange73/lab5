@@ -1,4 +1,4 @@
-package Control;
+package сontrol;
 
 import data.MusicBand;
 
@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public class Request implements Serializable {
     private final String commandName;
-    private Object argument; //TODO не сериализуется??
+    private Object argument;
     private MusicBand musicBand;
 
 

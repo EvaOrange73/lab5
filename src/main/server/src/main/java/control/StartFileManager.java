@@ -11,7 +11,6 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 
@@ -61,24 +60,4 @@ public class StartFileManager {
             fileOutputStream.write(buffer, 0, buffer.length);
         }
     }
-
-//TODO    /**
-//     * @param data коллекция, которую нужно сохранить
-//     */
-//    public void saveInStartFile(LinkedHashSet<MusicBand> data) {
-//        try {
-//            this.save(data);
-//        } catch (IOException e) {
-//            this.print("стартовый файл не найден");
-//        } catch (EnvException e) {
-//            this.print(e.toString());
-//        }
-//    }
-//        try {
-//            startFileManager.readStartFile(this.collectionManager);
-//        } catch (IOException e) {
-//            print("стартовый файл не найден");
-//        } catch (EnvException e) {
-//            print(e.toString());
-//        }
 }
