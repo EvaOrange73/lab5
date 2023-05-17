@@ -3,26 +3,43 @@ package server;
 import Control.CommandDescription;
 import Control.Request;
 import Control.Response;
-import commands.CommandManager;
 
+import java.io.*;
+import java.net.Socket;
 import java.util.ArrayList;
 
 
 /**
  * Менеджер сервера - класс, отвечающий за отправку запросов и получение ответов от сервера
  */
-public class ServerManager { //TODO
+public class ServerManager {
+    int port;
 
-    ServerManager(){
-        createCommandManager(this);
+    public ServerManager(int port) throws ServerException {
+        this.port = port;
     }
 
-    private void createCommandManager(ServerManager serverManager){
-        ArrayList<CommandDescription> commands = null;
-        CommandManager commandManager = new CommandManager(commands, this);
+    public ArrayList<CommandDescription> askCommands() {
+        try (Socket client = new Socket("localhost", port)) {
+            ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
+            out.writeObject(new Request("getCommands"));
+
+            ObjectInputStream in = new ObjectInputStream(client.getInputStream());
+            return (ArrayList<CommandDescription>) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException("что-то пошло не так при отправке списка команд с сервера");
+        }
     }
 
-    public Response request(Request request){
-        return null; //TODO
+    public Response request(Request request) {
+        try (Socket client = new Socket("localhost", port)) {
+            ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
+            out.writeObject(request);
+
+            ObjectInputStream in = new ObjectInputStream(client.getInputStream());
+            return (Response) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException("что-то пошло не так при отправке команды на сервер");
+        }
     }
 }

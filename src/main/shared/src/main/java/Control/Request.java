@@ -2,12 +2,14 @@ package Control;
 
 import data.MusicBand;
 
+import java.io.Serializable;
+
 /**
  * Формат запросов к серверу
  */
-public class Request {
+public class Request implements Serializable {
     private final String commandName;
-    private Object argument;
+    private Object argument; //TODO не сериализуется??
     private MusicBand musicBand;
 
 

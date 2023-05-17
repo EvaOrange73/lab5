@@ -4,9 +4,10 @@ import data.description.Data;
 import data.description.FieldAnnotation;
 import data.description.Generator;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class MusicBand extends Data implements Comparable<MusicBand> {
+public class MusicBand extends Data implements Comparable<MusicBand>, Serializable {
     /**
      * Поле не может быть null, Значение поля должно быть больше 0,
      * Значение этого поля должно быть уникальным,

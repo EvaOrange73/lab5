@@ -3,7 +3,9 @@ package data;
 import data.description.Data;
 import data.description.FieldAnnotation;
 
-public class Coordinates extends Data {
+import java.io.Serializable;
+
+public class Coordinates extends Data implements Serializable {
     /**
      * Поле не может быть null
      */

@@ -2,10 +2,12 @@ package data.description;
 
 import data.MusicGenre;
 
+import java.io.Serializable;
+
 /**
  * Типы простых аргументов команд и их валидация
  */
-public enum Types {
+public enum Types implements Serializable {
     STRING(new String[]{"java.lang.String"}) {
         @Override
         public Object validateType(String input) {

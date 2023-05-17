@@ -21,5 +21,4 @@ public class HelpCommand extends ClientCommand {
         }
         return new Response(response.toString());
     }
-
 }

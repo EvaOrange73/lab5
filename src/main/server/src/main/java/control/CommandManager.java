@@ -1,5 +1,6 @@
 package control;
 
+import Control.CommandDescription;
 import Control.Request;
 import Control.Response;
 import commands.*;
@@ -44,12 +45,17 @@ public class CommandManager {
     /**
      * @return список команд, которые умеет обрабатывать программа
      */
-    public ArrayList<Command> getCommands() {
-        return (ArrayList<Command>) this.commands.values();
-    } //TODO это ок?
+    public ArrayList<CommandDescription> getCommandDescriptions() {
+        ArrayList<CommandDescription> commandDescriptions = new ArrayList<>();
+        for (Command command : this.commands.values()){
+            commandDescriptions.add(command.getDescription());
+        }
+        return commandDescriptions;
+    }
 
     /**
      * Метод, вызывающий исполнение команды
+     *
      * @param request запрос от клиента
      * @return ответ от сервера
      */

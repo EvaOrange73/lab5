@@ -23,4 +23,8 @@ public abstract class Command {
     public String getName() {
         return this.commandDescription.getName();
     }
+
+    public CommandDescription getDescription() {
+        return this.commandDescription;
+    }
 }

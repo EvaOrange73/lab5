@@ -18,7 +18,6 @@ import java.util.List;
  * Менеджер команд -- класс, отвечающий за
  * вызов метода, выполняющего переданную команду,
  * или формирование запроса на сервер.
- *
  */
 public class CommandManager {
     private final HashMap<String, CommandDescription> commands;
@@ -26,16 +25,19 @@ public class CommandManager {
     private final ServerManager serverManager;
 
     /**
-     * @param serverCommands - список команд, пришедших с сервера
      * @param serverManager - менеджер сервера
      */
-    public CommandManager(ArrayList<CommandDescription> serverCommands, ServerManager serverManager) {
+    public CommandManager(IOManager ioManager, ServerManager serverManager) {
+        this.ioManager = ioManager;
+        this.serverManager = serverManager;
         ArrayList<CommandDescription> commands = new ArrayList<>(List.of(
                 new HelpCommand(this),
                 new ExitCommand(),
                 new ExecuteScriptCommand(ioManager, this)
         ));
-        commands.addAll(serverCommands);
+        if (serverManager != null) {
+            commands.addAll(serverManager.askCommands());
+        }
         this.commands = commands.stream().collect(
                 LinkedHashMap::new,
                 (map, item) -> map.put(item.getName(), item),
@@ -43,7 +45,7 @@ public class CommandManager {
                     throw new IllegalStateException("combiner not needed here");
                 }
         );
-        this.serverManager = serverManager;
+
     }
 
     /**
@@ -84,9 +86,10 @@ public class CommandManager {
             if (response.hasException()) return "при выполнении команды возникла ошибка";
         }
         StringBuilder answer = new StringBuilder(response.getText() + "\n");
-        for (MusicBand musicBand : response.getMusicBandAList()) {
-            answer.append(musicBand.toString()).append("\n");
-        }
+        if (response.getMusicBandAList() != null)
+            for (MusicBand musicBand : response.getMusicBandAList()) {
+                answer.append(musicBand.toString()).append("\n");
+            }
         return answer.toString();
     }
 

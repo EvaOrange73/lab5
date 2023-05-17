@@ -3,7 +3,9 @@ package data;
 import data.description.Data;
 import data.description.FieldAnnotation;
 
-public class Album extends Data {
+import java.io.Serializable;
+
+public class Album extends Data implements Serializable {
     /**
      * Поле не может быть null, Строка не может быть пустой
      */

@@ -2,10 +2,12 @@ package Control;
 
 import data.description.Types;
 
+import java.io.Serializable;
+
 /**
  * Описание команды
  */
-public class CommandDescription {
+public class CommandDescription implements Serializable {
     private final String name;
     private final String argumentName;
     private final Types argumentType;
@@ -53,4 +55,8 @@ public class CommandDescription {
         return needMusicBand;
     }
 
+    @Override
+    public String toString() {
+        return this.description;
+    }
 }

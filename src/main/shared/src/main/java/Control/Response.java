@@ -2,13 +2,14 @@ package Control;
 
 import data.MusicBand;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Формат ответов от сервера
  */
-public class Response {
+public class Response implements Serializable {
     private final boolean exception;
     private final String text;
     private final ArrayList<MusicBand> musicBandAList;

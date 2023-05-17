@@ -69,8 +69,8 @@ public class IOManager {
     /**
      * Основной метод программы: считывает команды и запускает их выполнение
      */
-    public void start() {
-        if (this.input == Input.CONSOLE) print("""
+    public void start(boolean isConnected) {
+        String startMessage = isConnected ? """
                 Здравствуйте! Предлагаю вам тестовые команды:
 
                 Вызов скрипта, содержащего все команды с корректными аргументами:
@@ -84,12 +84,15 @@ public class IOManager {
                                 
                 Полная справка по командам:
                 help
-                """);
+                """
+                :
+                "сервер временно недоступен";
+        if (this.input == Input.CONSOLE) print(startMessage);
         while (this.input.hasNext()) { //TODO так плохо делать?
             String command = this.input.nextLine();
             if (!(command.isEmpty())) {
                 if (this.input == Input.SCRIPT) print("\nкоманда " + command);
-                this.commandManager.execute(command);
+                this.print(this.commandManager.execute(command));
             }
         }
         if (this.input.hasPreviousFile())
@@ -115,7 +118,7 @@ public class IOManager {
             this.print("исполняемый файл не найден");
             this.input.continueExecutePreviousFile();
         }
-        this.start();
+        this.start(true); //TODO true??
     }
 
     /**
