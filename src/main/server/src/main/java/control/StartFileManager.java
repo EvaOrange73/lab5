@@ -21,17 +21,18 @@ import java.util.List;
  */
 public class StartFileManager {
     private final String fileName;
+    private final CollectionManager collectionManager;
 
-    public StartFileManager(String fileName) {
+    public StartFileManager(String fileName, CollectionManager collectionManager) {
         this.fileName = fileName;
+        this.collectionManager = collectionManager;
     }
 
     /**
-     * @param collectionManager менеджер коллекции, в которую сохранятся считанные данные
      * @throws IOException  если файл не найден
      * @throws EnvException если не задана переменная окружения
      */
-    public void readStartFile(CollectionManager collectionManager) throws IOException, EnvException {
+    public void readStartFile() throws IOException, EnvException {
         StringBuilder str = new StringBuilder();
         if (fileName == null) throw new EnvException();
         BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
@@ -44,20 +45,19 @@ public class StartFileManager {
         Gson gson = builder.create();
         ArrayList<MusicBand> musicBands = gson.fromJson(str.toString(), new TypeToken<List<MusicBand>>() {
         }.getType());
-        collectionManager.setStartCollection(musicBands);
+        this.collectionManager.setStartCollection(musicBands);
     }
 
     /**
-     * @param collection коллекция, которая будет сохранена в файл.
      * @throws IOException  если файл не найден
      * @throws EnvException если не задана переменная окружения
      */
-    public void save(LinkedHashSet<MusicBand> collection) throws IOException, EnvException {
+    public void save() throws IOException, EnvException {
         if (fileName == null) throw new EnvException();
         try (FileOutputStream fileOutputStream = new FileOutputStream(this.fileName, false)) {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
-            byte[] buffer = gson.toJson(collection).getBytes();
+            byte[] buffer = gson.toJson(this.collectionManager.getCollection()).getBytes();
             fileOutputStream.write(buffer, 0, buffer.length);
         }
     }

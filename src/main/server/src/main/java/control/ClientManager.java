@@ -1,6 +1,7 @@
 package control;
 
 import Control.Request;
+import exceptions.EnvException;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -27,7 +28,7 @@ public class ClientManager {
     }
 
 
-    public void start() {
+    public void connectClient() {
         while (true) {
             try (Socket server = serverSocket.accept()) {
                 ObjectInputStream in = new ObjectInputStream(server.getInputStream());
@@ -41,6 +42,8 @@ public class ClientManager {
                 System.out.println("на сервер пришел запрос в неверном формате");
             } catch (IOException e) {
                 System.out.println("io exception");
+            } catch (EnvException e) {
+                System.out.println(e.toString());
             }
         }
     }

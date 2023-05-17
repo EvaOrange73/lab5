@@ -9,6 +9,7 @@ import Control.Request;
 import Control.Response;
 import server.ServerManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -36,7 +37,11 @@ public class CommandManager {
                 new ExecuteScriptCommand(ioManager, this)
         ));
         if (serverManager != null) {
-            commands.addAll(serverManager.askCommands());
+            try {
+                commands.addAll(serverManager.askCommands());
+            } catch (IOException e) {
+                ioManager.print("сервер временно недоступен"); //TODO
+            }
         }
         this.commands = commands.stream().collect(
                 LinkedHashMap::new,
@@ -82,7 +87,11 @@ public class CommandManager {
                     commandDescription.getArgumentName(),
                     commandDescription.getArgumentType().toString())
             ).toString();
-            response = serverManager.request(request);
+            try {
+                response = serverManager.request(request);
+            } catch (IOException e) {
+                return "сервер временно недоступен";
+            }
             if (response.hasException()) return "при выполнении команды возникла ошибка";
         }
         StringBuilder answer = new StringBuilder(response.getText() + "\n");

@@ -4,7 +4,9 @@ import Control.CommandDescription;
 import Control.Request;
 import Control.Response;
 import commands.*;
+import exceptions.EnvException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,8 +19,10 @@ public class CommandManager {
      * Словарь, сопоставляющий название команды и класс, отвечающий за её исполнение
      */
     private final LinkedHashMap<String, Command> commands;
+    private final StartFileManager startFileManager;
 
-    public CommandManager(CollectionManager collectionManager) {
+    public CommandManager(CollectionManager collectionManager, StartFileManager startFileManager) {
+        this.startFileManager = startFileManager;
         ArrayList<Command> commandsList = new ArrayList<>(List.of(
                 new InfoCommand(collectionManager),
                 new ShowCommand(collectionManager),
@@ -59,8 +63,9 @@ public class CommandManager {
      * @param request запрос от клиента
      * @return ответ от сервера
      */
-    public Response execute(Request request) {
+    public Response execute(Request request) throws EnvException, IOException {
         Command commandExecutor = commands.get(request.getCommandName());
+        startFileManager.save();
         return commandExecutor.execute(request);
     }
 }
