@@ -2,8 +2,8 @@ package commands;
 
 import IO.IOManager;
 import data.description.Types;
-import сontrol.Request;
-import сontrol.Response;
+import control.Request;
+import control.Response;
 
 public class ExecuteScriptCommand extends ClientCommand {
 

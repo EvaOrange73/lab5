@@ -1,7 +1,7 @@
 package commands;
 
-import сontrol.Request;
-import сontrol.Response;
+import control.Request;
+import control.Response;
 
 public class ExitCommand extends ClientCommand {
     public ExitCommand() {

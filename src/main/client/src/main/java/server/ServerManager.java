@@ -1,8 +1,8 @@
 package server;
 
-import сontrol.CommandDescription;
-import сontrol.Request;
-import сontrol.Response;
+import control.CommandDescription;
+import control.Request;
+import control.Response;
 
 import java.io.*;
 import java.net.Socket;

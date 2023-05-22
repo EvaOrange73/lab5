@@ -1,12 +1,12 @@
 package commands;
 
-import сontrol.CommandDescription;
+import control.CommandDescription;
 import IO.IOManager;
 import IO.InputExceptions.ArgumentException;
 import IO.InputExceptions.FieldsException;
 import data.MusicBand;
-import сontrol.Request;
-import сontrol.Response;
+import control.Request;
+import control.Response;
 import server.ServerManager;
 
 import java.io.IOException;

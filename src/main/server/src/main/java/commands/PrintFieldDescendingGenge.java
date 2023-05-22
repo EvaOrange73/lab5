@@ -1,8 +1,8 @@
 package commands;
 
-import сontrol.CommandDescription;
-import сontrol.Request;
-import сontrol.Response;
+import control.CommandDescription;
+import control.Request;
+import control.Response;
 import control.CollectionManager;
 import data.MusicBand;
 import data.MusicGenre;

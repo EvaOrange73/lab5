@@ -1,4 +1,4 @@
-package сontrol;
+package control;
 
 import data.MusicBand;
 
