@@ -25,9 +25,6 @@ public class CommandManager {
     private final IOManager ioManager;
     private final ServerManager serverManager;
 
-    /**
-     * @param serverManager - менеджер сервера
-     */
     public CommandManager(IOManager ioManager, ServerManager serverManager) {
         this.ioManager = ioManager;
         this.serverManager = serverManager;
@@ -36,13 +33,6 @@ public class CommandManager {
                 new ExitCommand(),
                 new ExecuteScriptCommand(ioManager)
         ));
-        if (serverManager != null) {
-            try {
-                commands.addAll(serverManager.askCommands());
-            } catch (IOException e) {
-                ioManager.print("сервер временно недоступен"); //TODO
-            }
-        }
         this.commands = commands.stream().collect(
                 LinkedHashMap::new,
                 (map, item) -> map.put(item.getName(), item),
@@ -50,7 +40,6 @@ public class CommandManager {
                     throw new IllegalStateException("combiner not needed here");
                 }
         );
-
     }
 
     /**
@@ -58,6 +47,16 @@ public class CommandManager {
      */
     public HashMap<String, CommandDescription> getCommands() {
         return commands;
+    }
+
+    public void addCommands(ArrayList<CommandDescription> serverCommands) {
+        this.commands.putAll(serverCommands.stream().collect(
+                LinkedHashMap::new,
+                (map, item) -> map.put(item.getName(), item),
+                (l, r) -> {
+                    throw new IllegalStateException("combiner not needed here");
+                }
+        ));
     }
 
     /**
@@ -74,8 +73,10 @@ public class CommandManager {
 
         Response response;
 
-        if (commandDescription instanceof ClientCommand)
+        if (commandDescription instanceof ClientCommand) {
             response = ((ClientCommand) commandDescription).execute(new Request(commandName, argumentName));
+            if (response.hasException()) return "сервер временно недоступен";
+        }
         else {
             Request request;
             try {

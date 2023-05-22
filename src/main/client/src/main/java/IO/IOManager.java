@@ -86,7 +86,17 @@ public class IOManager {
                 help
                 """
                 :
-                "сервер временно недоступен";
+                """
+                Сервер временно недоступен
+                
+                Справка по доступным командам:
+                help
+                
+                Используйте команду
+                ask_server_commands
+                чтобы обновить список доступных команд
+                Или перезапустите приложение
+                """;
         if (this.input == Input.CONSOLE) print(startMessage);
         while (this.input.hasNext()) { //TODO так плохо делать?
             String command = this.input.nextLine();

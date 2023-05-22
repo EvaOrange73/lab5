@@ -33,6 +33,10 @@ public class Response implements Serializable {
         this(false, "", musicBandAList);
     }
 
+    public Response(boolean exception){
+        this(exception, "", null);
+    }
+
     public boolean hasException() {
         return exception;
     }
