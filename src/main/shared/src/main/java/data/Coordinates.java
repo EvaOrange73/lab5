@@ -21,4 +21,8 @@ public class Coordinates extends Data implements Serializable {
     public String toString() {
         return super.toString("Координаты");
     }
+
+    public double getDistance() {
+        return Math.sqrt(x * x + y * y);
+    }
 }

@@ -70,6 +70,10 @@ public class MusicBand extends Data implements Comparable<MusicBand>, Serializab
         return description;
     }
 
+    public Coordinates getCoordinates(){
+        return this.coordinates;
+    }
+
     @Override
     public String toString() {
         return super.toString("Музыкальная группа");
