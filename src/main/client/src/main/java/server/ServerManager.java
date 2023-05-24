@@ -5,7 +5,9 @@ import control.Request;
 import control.Response;
 
 import java.io.*;
-import java.net.Socket;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 
 
@@ -15,28 +17,30 @@ import java.util.ArrayList;
 public class ServerManager {
     int port;
 
-    public ServerManager(int port){
+    public ServerManager(int port) {
         this.port = port;
     }
 
-    public ArrayList<CommandDescription> askCommands() throws IOException{
-        try (Socket client = new Socket("localhost", port)) {
-            ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
+    public ArrayList<CommandDescription> askCommands() throws IOException {
+        try (SocketChannel server = SocketChannel.open()) {
+            SocketAddress socketAddr = new InetSocketAddress("localhost", 9000);
+            server.connect(socketAddr);
+            ObjectOutputStream out = new ObjectOutputStream(server.socket().getOutputStream());
             out.writeObject(new Request("getCommands"));
-
-            ObjectInputStream in = new ObjectInputStream(client.getInputStream());
+            ObjectInputStream in = new ObjectInputStream(server.socket().getInputStream());
             return (ArrayList<CommandDescription>) in.readObject(); //TODO а что делать?
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("что-то пошло не так при отправке списка команд с сервера");
         }
     }
 
-    public Response request(Request request) throws IOException{
-        try (Socket client = new Socket("localhost", port)) {
-            ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
+    public Response request(Request request) throws IOException {
+        try (SocketChannel server = SocketChannel.open()) {
+            SocketAddress socketAddr = new InetSocketAddress("localhost", 9000);
+            server.connect(socketAddr);
+            ObjectOutputStream out = new ObjectOutputStream(server.socket().getOutputStream());
             out.writeObject(request);
-
-            ObjectInputStream in = new ObjectInputStream(client.getInputStream());
+            ObjectInputStream in = new ObjectInputStream(server.socket().getInputStream());
             return (Response) in.readObject();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("что-то пошло не так при отправке команды на сервер");
