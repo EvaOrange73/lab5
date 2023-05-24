@@ -16,10 +16,8 @@ public class CommandManager {
      * Словарь, сопоставляющий название команды и класс, отвечающий за её исполнение
      */
     private final LinkedHashMap<String, Command> commands;
-    private final StartFileManager startFileManager;
 
-    public CommandManager(CollectionManager collectionManager, StartFileManager startFileManager) {
-        this.startFileManager = startFileManager;
+    public CommandManager(CollectionManager collectionManager) {
         ArrayList<Command> commandsList = new ArrayList<>(List.of(
                 new InfoCommand(collectionManager),
                 new ShowCommand(collectionManager),
@@ -48,7 +46,7 @@ public class CommandManager {
      */
     public ArrayList<CommandDescription> getCommandDescriptions() {
         ArrayList<CommandDescription> commandDescriptions = new ArrayList<>();
-        for (Command command : this.commands.values()){
+        for (Command command : this.commands.values()) {
             commandDescriptions.add(command.getDescription());
         }
         return commandDescriptions;
@@ -61,8 +59,6 @@ public class CommandManager {
      * @return ответ от сервера
      */
     public Response execute(Request request) throws EnvException, IOException {
-        Command commandExecutor = commands.get(request.getCommandName());
-        startFileManager.save();
-        return commandExecutor.execute(request);
+        return commands.get(request.getCommandName()).execute(request);
     }
 }
