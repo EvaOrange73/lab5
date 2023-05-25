@@ -1,6 +1,7 @@
 package server;
 
 import control.CommandDescription;
+import control.CommandsList;
 import control.Request;
 import control.Response;
 
@@ -28,7 +29,7 @@ public class ServerManager {
             ObjectOutputStream out = new ObjectOutputStream(server.socket().getOutputStream());
             out.writeObject(new Request("getCommands"));
             ObjectInputStream in = new ObjectInputStream(server.socket().getInputStream());
-            return (ArrayList<CommandDescription>) in.readObject(); //TODO а что делать?
+            return ((CommandsList) in.readObject()).getCommands();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("что-то пошло не так при отправке списка команд с сервера");
         }

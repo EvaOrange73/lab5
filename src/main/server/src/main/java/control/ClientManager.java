@@ -42,7 +42,7 @@ public class ClientManager {
                 Request request = (Request) in.readObject();
                 ObjectOutputStream out = new ObjectOutputStream(client.socket().getOutputStream());
                 if (request.getCommandName().equals("getCommands"))
-                    out.writeObject(commandManager.getCommandDescriptions());
+                    out.writeObject(new CommandsList(commandManager.getCommandDescriptions()));
                 else
                     out.writeObject(this.commandManager.execute(request));
             }
