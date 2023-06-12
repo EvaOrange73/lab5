@@ -1,11 +1,7 @@
 package control;
 
 import data.MusicBand;
-import data.description.FieldAnnotation;
-import data.description.Generator;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.TreeSet;
@@ -18,48 +14,28 @@ import java.util.TreeSet;
 public class CollectionManager {
     private LinkedHashSet<MusicBand> collection = new LinkedHashSet<>();
     private final Date creationDate = new Date();
+    private final DatabaseManager databaseManager;
 
-    public static class Generation {
-        static int nextId = 1;
-
-        public static void setNextId(int id) {
-            nextId = id;
-        }
-
-        public static Object generate(Generator generator) {
-            switch (generator) {
-                case ID_GENERATOR -> {
-                    nextId++;
-                    return nextId;
-                }
-                case DATA_GENERATOR -> {
-                    return new Date();
-                }
-                default -> throw new RuntimeException("что-то пошло не так при генерации поля");
-            }
-        }
+    public CollectionManager(DatabaseManager databaseManager) {
+        this.databaseManager = databaseManager;
     }
 
-    /**
-     * Метод, заполняющий коллекцию элементами, считанными из стартового файла
-     *
-     * @param musicBands список элементов
-     */
-    public void setStartCollection(ArrayList<MusicBand> musicBands) {
-        collection.addAll(musicBands);
+    public void setCollection(LinkedHashSet<MusicBand> musicBands) {
+        collection = musicBands;
         this.sort();
-        int maxId = 0;
-        for (MusicBand musicBand : collection)
-            if (musicBand.getId() > maxId) maxId = musicBand.getId();
-        Generation.setNextId(maxId + 1);
+    }
+
+    public MusicBand getById(Integer id) {
+        for (MusicBand musicBand : this.collection) {
+            if (musicBand.getId().equals(id)) {
+                return musicBand;
+            }
+        }
+        return null;
     }
 
     public LinkedHashSet<MusicBand> getCollection() {
         return this.collection;
-    }
-
-    public void clear() {
-        this.collection.clear();
     }
 
     public String getType() {
@@ -74,13 +50,21 @@ public class CollectionManager {
         return this.collection.size();
     }
 
-    public void remove(MusicBand musicBand) {
-        collection.remove(musicBand);
+    public void remove(int musicBandId) {
+        databaseManager.removeMusicBand(musicBandId);
+        this.collection.removeIf(musicBand -> musicBand.getId() == (musicBandId));
     }
 
     public void add(MusicBand musicBand) {
-        this.generateFields(musicBand);
+        databaseManager.insertAndGetId(musicBand);
         collection.add(musicBand);
+        this.sort();
+    }
+
+    public void update(MusicBand oldMusicBand, MusicBand newMusicBand) {
+        databaseManager.update(newMusicBand);
+        collection.remove(oldMusicBand);
+        collection.add(newMusicBand);
         this.sort();
     }
 
@@ -97,20 +81,5 @@ public class CollectionManager {
 
     private void sort() {
         collection = new LinkedHashSet<>(new TreeSet<>(collection));
-    }
-
-    private void generateFields(MusicBand musicBand) {
-        for (Field field : MusicBand.class.getDeclaredFields()) {
-            FieldAnnotation annotation = field.getAnnotation(FieldAnnotation.class);
-            if (annotation.isGenerate()) {
-                Object value = Generation.generate(annotation.generator());
-                field.setAccessible(true);
-                try {
-                    field.set(musicBand, value);
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException("Что-то пошло не так при установке поля " + annotation.name() + "\n" + e);
-                }
-            }
-        }
     }
 }

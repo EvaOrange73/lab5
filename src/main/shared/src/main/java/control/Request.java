@@ -11,17 +11,17 @@ public class Request implements Serializable {
     private final String commandName;
     private Object argument;
     private MusicBand musicBand;
+    private final Integer userID;
 
-
-    public Request(String commandName, String argument) {
+    public Request(String commandName, Object argument, Integer userID) {
         this.commandName = commandName;
         this.argument = argument;
+        this.userID = userID;
     }
 
-    public Request(String commandName) {
-        this(commandName, null);
+    public Request(String commandName, Integer userID) {
+        this(commandName, null, userID);
     }
-
 
     public void setArgument(Object argument) {
         this.argument = argument;
@@ -41,5 +41,9 @@ public class Request implements Serializable {
 
     public MusicBand getMusicBand() {
         return this.musicBand;
+    }
+
+    public int getUserID() {
+        return userID;
     }
 }

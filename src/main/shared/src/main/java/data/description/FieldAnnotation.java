@@ -17,6 +17,16 @@ public @interface FieldAnnotation {
     String name();
 
     /**
+     * @return Название колонки в базе данных
+     */
+    String ColumnName();
+
+    /**
+     * @return Нужно ли печатать поле пользователю
+     */
+    boolean printable() default true;
+
+    /**
      * @return Может ли поле быть null
      */
     boolean nullable() default true;
@@ -32,19 +42,24 @@ public @interface FieldAnnotation {
     int moreThen() default 0;
 
     /**
-     * @return поле должно генерироваться автоматически?
+     * @return поле устанавливается базой данных
      */
-    boolean isGenerate() default false;
+    boolean DBSets() default false;
 
     /**
-     * @return класс, выполняющий генерацию поля
+     * Поле устанавливается сервером
      */
-    Generator generator() default Generator.DEFAULT;
+    boolean serverSets() default false;
 
     /**
      * @return поле - объект составного типа? (Coordinates, Album)
      */
     boolean isCompositeDataType() default false;
+
+    /**
+     * @return тип поля, если оно составное
+     */
+    DataTypes compositeDataType() default DataTypes.DEFAULT;
 
     /**
      * @return поле - объект перечисляемого типа?

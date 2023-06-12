@@ -3,6 +3,7 @@ package data.description;
 import data.Album;
 import data.Coordinates;
 import data.MusicBand;
+import data.User;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -11,17 +12,31 @@ import java.util.Objects;
 /**
  * Типы данных - хранит подклассы Data, которые умеет обрабатывать DataFactory
  */
-public enum DataTypes { //TODO может сделать внутренним классом Data?
-    MUSIC_BAND("data.MusicBand", MusicBand.class),
-    ALBUM("data.Album", Album.class),
-    COORDINATES("data.Coordinates", Coordinates.class);
+public enum DataTypes { // может сделать внутренним классом Data?
+    MUSIC_BAND("Музыкальная группа", "data.MusicBand", MusicBand.class, "music_bands"),
+    ALBUM("Альбом", "data.Album", Album.class, "albums"),
+    COORDINATES("Координаты","data.Coordinates", Coordinates.class, "coordinates"),
+    USER("Пользователь", "data.User", User.class, "users"),
+    DEFAULT("", "", null, "");
 
+    private final String name;
     private final String typeName;
     private final Class<? extends Data> clazz;
+    private final String DBname;
 
-    DataTypes(String typeName, Class<? extends Data> clazz) {
+    DataTypes(String name, String typeName, Class<? extends Data> clazz, String DBname) {
+        this.name = name;
         this.typeName = typeName;
         this.clazz = clazz;
+        this.DBname = DBname;
+    }
+
+    public static DataTypes getTypeByName(String name){
+        for (DataTypes dataTypes : DataTypes.values())
+            if (Objects.equals(dataTypes.typeName, name)) {
+                return dataTypes;
+            }
+        throw new RuntimeException("Такого типа данных нет в DataTypes");
     }
 
     /**
@@ -59,5 +74,13 @@ public enum DataTypes { //TODO может сделать внутренним к
                 }
             }
         throw new RuntimeException("Не удалось создать пустой объект Data");
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getTableName(){
+        return this.DBname;
     }
 }

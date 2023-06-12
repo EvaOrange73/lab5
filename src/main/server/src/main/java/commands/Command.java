@@ -1,9 +1,6 @@
 package commands;
 
-import control.CommandDescription;
-import control.Request;
-import control.Response;
-import control.CollectionManager;
+import control.*;
 
 /**
  * Абстрактный класс для команды
@@ -12,10 +9,16 @@ public abstract class Command {
     protected final CommandDescription commandDescription;
 
     protected final CollectionManager collectionManager;
+    protected final UserManager userManager;
 
-    Command(CommandDescription commandDescription, CollectionManager collectionManager) {
+    Command(CommandDescription commandDescription, CollectionManager collectionManager, UserManager userManager) {
         this.commandDescription = commandDescription;
         this.collectionManager = collectionManager;
+        this.userManager = userManager;
+    }
+
+    Command(CommandDescription commandDescription, CollectionManager collectionManager){
+        this(commandDescription, collectionManager, null);
     }
 
     public abstract Response execute(Request request);

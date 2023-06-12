@@ -4,23 +4,29 @@ import IO.InputExceptions.FieldsException;
 import IO.InputExceptions.RecursionException;
 import commands.CommandManager;
 import data.MusicBand;
+import data.User;
 import data.description.DataTypes;
+import server.ServerManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.util.Stack;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Менеджер ввода и вывода -- класс для чтения команд и их аргументов, а так же записи результатов их выполнения.
  */
 public class IOManager {
-    private CommandManager commandManager;
-    private Input input;
 
-    public IOManager(Input input) {
-        this.input = input;
+    private Input input;
+    private CommandManager commandManager;
+    private final ServerManager serverManager;
+
+    private User user;
+
+    public IOManager(ServerManager serverManager) {
+        this.input = Input.CONSOLE;
+        this.serverManager = serverManager;
     }
 
     /**
@@ -66,12 +72,42 @@ public class IOManager {
         this.commandManager = commandManager;
     }
 
-    /**
-     * Основной метод программы: считывает команды и запускает их выполнение
-     */
-    public void start(boolean isConnected) {
-        String startMessage = isConnected ? """
-                Здравствуйте! Предлагаю вам тестовые команды:
+    public void setUser(User user){
+        this.user = user;
+    }
+
+    public User authorize() {
+        return this.authorize(0);
+    }
+
+    public User authorize(int counter) {
+        if (counter > 2) {
+            this.print("Вы ввели пароль неправильно слишком много раз");
+            return null;
+        }
+
+        this.print("Логин:");
+        User user = new User();
+        user.setUsername(this.input.nextLine());
+        this.print("Пароль:");
+        String password = this.input.nextLine();
+        if (!(password.isEmpty())) user.setPassword(password);
+        try {
+            user = this.serverManager.authorize(user);
+            if (user == null) {
+                this.print("Неверный пароль");
+                return this.authorize(counter + 1);
+            }
+        } catch (IOException e) {
+            this.print("Сервер временно недоступен. Попробуйте позже.");
+            return this.authorize(counter);
+        }
+        return user;
+    }
+
+    public void printStartMessage() {
+        String startMessage = """
+                Здравствуйте, %s! Предлагаю вам тестовые команды:
 
                 Вызов скрипта, содержащего все команды с корректными аргументами:
                 execute_script /home/studs/s388052/scripts/script_1.txt
@@ -84,32 +120,25 @@ public class IOManager {
                                 
                 Полная справка по командам:
                 help
-                """
-                :
-                """
-                Сервер временно недоступен
-                
-                Справка по доступным командам:
-                help
-                
-                Используйте команду
-                ask_server_commands
-                чтобы обновить список доступных команд
-                Или перезапустите приложение
-                """;
+                """.formatted(this.user.getUsername());
         if (this.input == Input.CONSOLE) print(startMessage);
-        while (this.input.hasNext()) { //TODO так плохо делать?
+    }
+
+    /**
+     * Основной метод программы: считывает команды и запускает их выполнение
+     */
+    public void readCommands() {
+        while (this.input.hasNext()) {
             String command = this.input.nextLine();
             if (!(command.isEmpty())) {
                 if (this.input == Input.SCRIPT) print("\nкоманда " + command);
-                this.print(this.commandManager.execute(command));
+                this.print(this.commandManager.execute(command, user.getId()));
             }
         }
         if (this.input.hasPreviousFile())
             this.input.continueExecutePreviousFile();
         else
             this.input = Input.CONSOLE;
-
     }
 
     /**
@@ -128,7 +157,7 @@ public class IOManager {
             this.print("исполняемый файл не найден");
             this.input.continueExecutePreviousFile();
         }
-        this.start(true); //TODO true??
+        this.readCommands();
     }
 
     /**
@@ -138,7 +167,7 @@ public class IOManager {
      * @throws FieldsException если объект некорректно записан в файле или пользователь слишком много раз пытался ввести его через консоль
      */
     public MusicBand askMusicBand() throws FieldsException {
-        DataFactory musicBandFactory = new DataFactory(DataTypes.MUSIC_BAND);
+        DataFactory musicBandFactory = new DataFactory(DataTypes.MUSIC_BAND, user.getId());
         HashMap<Integer, Answer> answers = this.askFields(musicBandFactory.getQuestions());
         musicBandFactory.setAnswers(answers);
 

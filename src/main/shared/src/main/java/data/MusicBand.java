@@ -1,8 +1,8 @@
 package data;
 
 import data.description.Data;
+import data.description.DataTypes;
 import data.description.FieldAnnotation;
-import data.description.Generator;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -13,70 +13,71 @@ public class MusicBand extends Data implements Comparable<MusicBand>, Serializab
      * Значение этого поля должно быть уникальным,
      * Значение этого поля должно генерироваться автоматически
      */
-    @FieldAnnotation(name = "id", isGenerate = true, generator = Generator.ID_GENERATOR)
+    @FieldAnnotation(name = "id", ColumnName = "id", DBSets = true)
     private Integer id;
+    /**
+     * id создателя объекта (только у создателя есть права на редактирование и удаление)
+     */
+    @FieldAnnotation(name = "id создателя объекта", ColumnName = "creator_id", serverSets = true)
+    private int creatorId;
     /**
      * Поле не может быть null,
      * Строка не может быть пустой
      */
-    @FieldAnnotation(name = "название группы", nullable = false)
+    @FieldAnnotation(name = "название группы", ColumnName = "name", nullable = false)
     private String name;
     /**
      * Поле не может быть null
      */
-    @FieldAnnotation(name = "координаты", nullable = false, isCompositeDataType = true)
+    @FieldAnnotation(name = "координаты", ColumnName = "coordinates", nullable = false, isCompositeDataType = true, compositeDataType = DataTypes.COORDINATES)
     private Coordinates coordinates;
     /**
      * Поле не может быть null,
      * Значение этого поля должно генерироваться автоматически
      */
-    @FieldAnnotation(name = "дата добавления в базу", isGenerate = true, generator = Generator.DATA_GENERATOR)
+    @FieldAnnotation(name = "дата добавления в базу", ColumnName = "creation_date", DBSets = true)
     private java.util.Date creationDate;
     /**
      * Значение поля должно быть больше 0
      */
-    @FieldAnnotation(name = "количество участников", isValidate = true)
+    @FieldAnnotation(name = "количество участников", ColumnName = "number_of_participants", isValidate = true)
     private Long numberOfParticipants;
     /**
      * Значение поля должно быть больше 0
      */
-    @FieldAnnotation(name = "количество песен", nullable = false, isValidate = true)
+    @FieldAnnotation(name = "количество песен", ColumnName = "singles_count", nullable = false, isValidate = true)
     private long singlesCount;
     /**
      * Поле может быть null
      */
-    @FieldAnnotation(name = "описание")
+    @FieldAnnotation(name = "описание", ColumnName = "description")
     private String description;
     /**
      * Поле не может быть null
      */
-    @FieldAnnotation(name = "музыкальный жанр", nullable = false, isEnum = true)
+    @FieldAnnotation(name = "музыкальный жанр", ColumnName = "genre", nullable = false, isEnum = true)
     private MusicGenre genre;
     /**
      * Поле может быть null
      */
-    @FieldAnnotation(name = "лучший альбом", isCompositeDataType = true)
+    @FieldAnnotation(name = "лучший альбом", ColumnName = "best_album", isCompositeDataType = true, compositeDataType = DataTypes.ALBUM)
     private Album bestAlbum;
 
     public MusicGenre getGenre() {
         return this.genre;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
     public String getDescription() {
         return description;
     }
 
-    public Coordinates getCoordinates(){
+    public Coordinates getCoordinates() {
         return this.coordinates;
     }
 
     @Override
     public String toString() {
-        return super.toString("Музыкальная группа");
+        return super.toString();
     }
 
     @Override
@@ -102,5 +103,14 @@ public class MusicBand extends Data implements Comparable<MusicBand>, Serializab
     @Override
     public int hashCode() {
         return this.name.hashCode();
+    }
+
+    @Override
+    public Integer getId() {
+        return this.id;
+    }
+
+    public Integer getCreatorId(){
+        return this.creatorId;
     }
 }

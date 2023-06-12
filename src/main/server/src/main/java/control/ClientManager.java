@@ -1,6 +1,6 @@
 package control;
 
-import exceptions.EnvException;
+import data.User;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -15,9 +15,11 @@ import java.nio.channels.SocketChannel;
 public class ClientManager {
     private final CommandManager commandManager;
     private final ServerSocketChannel serverSocket;
+    private final UserManager userManager;
 
-    public ClientManager(int port, CommandManager commandManager) {
+    public ClientManager(int port, CommandManager commandManager, UserManager userManager) {
         this.commandManager = commandManager;
+        this.userManager = userManager;
         try {
             this.serverSocket = ServerSocketChannel.open();
             serverSocket.configureBlocking(false);
@@ -27,7 +29,7 @@ public class ClientManager {
         }
     }
 
-    public void close(){
+    public void close() {
         try {
             this.serverSocket.close();
         } catch (IOException e) {
@@ -41,17 +43,20 @@ public class ClientManager {
                 ObjectInputStream in = new ObjectInputStream(client.socket().getInputStream());
                 Request request = (Request) in.readObject();
                 ObjectOutputStream out = new ObjectOutputStream(client.socket().getOutputStream());
-                if (request.getCommandName().equals("getCommands"))
-                    out.writeObject(new CommandsList(commandManager.getCommandDescriptions()));
-                else
-                    out.writeObject(this.commandManager.execute(request));
+                sendResponse(request, out);
             }
         } catch (ClassNotFoundException e) {
             System.out.println("на сервер пришел запрос в неверном формате");
         } catch (IOException e) {
-            System.out.println("io exception");
-        } catch (EnvException e) {
-            System.out.println(e.toString());
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void sendResponse(Request request, ObjectOutputStream out) throws IOException {
+        switch (request.getCommandName()) {
+            case "authorize" -> out.writeObject(userManager.authorize((User) request.getArgument()));
+            case "getCommands" -> out.writeObject(new CommandsList(commandManager.getCommandDescriptions()));
+            default -> out.writeObject(this.commandManager.execute(request));
         }
     }
 }

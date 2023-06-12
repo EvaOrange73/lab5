@@ -1,9 +1,7 @@
 package control;
 
 import commands.*;
-import exceptions.EnvException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,18 +15,18 @@ public class CommandManager {
      */
     private final LinkedHashMap<String, Command> commands;
 
-    public CommandManager(CollectionManager collectionManager) {
+    public CommandManager(CollectionManager collectionManager, UserManager userManager) {
         ArrayList<Command> commandsList = new ArrayList<>(List.of(
                 new InfoCommand(collectionManager),
                 new ShowCommand(collectionManager),
                 new AddCommand(collectionManager),
-                new UpdateCommand(collectionManager),
-                new RemoveByIdCommand(collectionManager),
-                new ClearCommand(collectionManager),
+                new UpdateCommand(collectionManager, userManager),
+                new RemoveByIdCommand(collectionManager, userManager),
+                new ClearCommand(collectionManager, userManager),
                 new AddIfMaxCommand(collectionManager),
                 new AddIfMinCommand(collectionManager),
-                new RemoveLowerCommand(collectionManager),
-                new RemoveAnyByDescriptionCommand(collectionManager),
+                new RemoveLowerCommand(collectionManager, userManager),
+                new RemoveAnyByDescriptionCommand(collectionManager, userManager),
                 new FilterContainsDescriptionCommand(collectionManager),
                 new PrintFieldDescendingGenge(collectionManager))
         );
@@ -58,7 +56,7 @@ public class CommandManager {
      * @param request запрос от клиента
      * @return ответ от сервера
      */
-    public Response execute(Request request) throws EnvException, IOException {
+    public Response execute(Request request) {
         return commands.get(request.getCommandName()).execute(request);
     }
 }

@@ -13,10 +13,12 @@ import java.util.HashMap;
 public class DataFactory {
 
     final Data object;
+    final int userId;
     private final HashMap<Integer, FieldFactory> fields;
 
-    public DataFactory(DataTypes dataType) {
+    public DataFactory(DataTypes dataType, int userId) {
         this.object = dataType.getNewInstance();
+        this.userId = userId;
         this.fields = formFields(dataType);
     }
 
@@ -24,7 +26,7 @@ public class DataFactory {
         HashMap<Integer, FieldFactory> fieldsMap = new HashMap<>();
         int i = 0;
         for (Field field : dataType.getDeclaredFields()) {
-            fieldsMap.put(i, new FieldFactory(field, i, object));
+            fieldsMap.put(i, new FieldFactory(field, i, object, userId));
             i++;
         }
         return fieldsMap;

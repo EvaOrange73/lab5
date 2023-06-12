@@ -14,6 +14,7 @@ import java.util.ArrayList;
  */
 public class FieldFactory {
     private final Data object;
+    private final int userId;
     private final int number;
     private final Field field;
     private final FieldAnnotation annotation;
@@ -36,8 +37,9 @@ public class FieldFactory {
      * @param number - номер поля. Будет совпадать с номером соответствующих вопросов и ответов
      * @param object - объект, которому нужно установить это поле
      */
-    public FieldFactory(Field field, int number, Data object) {
+    public FieldFactory(Field field, int number, Data object, int userId) {
         this.object = object;
+        this.userId = userId;
         this.number = number;
         this.field = field;
         this.annotation = field.getAnnotation(FieldAnnotation.class);
@@ -49,8 +51,16 @@ public class FieldFactory {
             isSet = false;
             this.subfields = generateSubfields(compositeObject);
         }
-
-        if (this.annotation.isGenerate()) this.isSet = true;
+        if (this.annotation.serverSets()){
+            this.field.setAccessible(true);
+            try {
+                this.field.set(object, userId);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+            this.isSet = true;
+        }
+        if (this.annotation.DBSets()) this.isSet = true;
         else this.question = new Question(this.annotation);
     }
 
@@ -59,7 +69,7 @@ public class FieldFactory {
         ArrayList<FieldFactory> subfields = new ArrayList<>();
         int i = 0;
         for (Field subfield : compositeObject.getClass().getDeclaredFields()) {
-            subfields.add(new FieldFactory(subfield, i, compositeObject));
+            subfields.add(new FieldFactory(subfield, i, compositeObject, userId));
             i++;
         }
         return subfields;

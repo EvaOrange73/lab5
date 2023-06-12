@@ -63,7 +63,7 @@ public class CommandManager {
      * @param input команда, введенная пользователем
      * @return о
      */
-    public String execute(String input) {
+    public String execute(String input, int userId) {
         String[] words = input.split(" ");
         String commandName = words[0];
         String argumentName = words.length == 1 ? null : words[1];
@@ -74,13 +74,13 @@ public class CommandManager {
         Response response;
 
         if (commandDescription instanceof ClientCommand) {
-            response = ((ClientCommand) commandDescription).execute(new Request(commandName, argumentName));
+            response = ((ClientCommand) commandDescription).execute(new Request(commandName, argumentName, userId));
             if (response.hasException()) return "сервер временно недоступен";
         }
         else {
             Request request;
             try {
-                request = validateCommand(commandName, argumentName, commandDescription);
+                request = validateCommand(commandName, argumentName, commandDescription, userId);
             } catch (FieldsException e) {
                 return e.toString();
             }
@@ -104,8 +104,8 @@ public class CommandManager {
         return answer.toString();
     }
 
-    private Request validateCommand(String commandName, String argumentName, CommandDescription commandDescription) throws FieldsException {
-        Request request = new Request(commandName);
+    private Request validateCommand(String commandName, String argumentName, CommandDescription commandDescription, int userId) throws FieldsException {
+        Request request = new Request(commandName, userId);
 
         if (commandDescription.getArgumentName() != null) {
             if (argumentName == null)

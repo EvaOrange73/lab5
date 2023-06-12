@@ -1,22 +1,24 @@
 package commands;
 
-import control.CommandDescription;
-import control.Request;
-import control.Response;
-import control.CollectionManager;
+import control.*;
+
+import java.util.ArrayList;
 
 public class ClearCommand extends Command {
-    public ClearCommand(CollectionManager collectionManager) {
+    public ClearCommand(CollectionManager collectionManager, UserManager userManager) {
         super(new CommandDescription(
                         "clear",
-                        "очистить коллекцию"
+                        "удалить все ваши элементы коллекции"
                         ),
-                collectionManager);
+                collectionManager, userManager);
     }
 
     @Override
     public Response execute(Request request) {
-        super.collectionManager.clear();
+        ArrayList<Integer> ids = super.userManager.getListOfUserOwnedItemIds(request.getUserID());
+        for (Integer id: ids) {
+            super.collectionManager.remove(id);
+        }
         return new Response();
     }
 }

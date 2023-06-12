@@ -1,15 +1,12 @@
 package commands;
 
-import control.CommandDescription;
-import control.Request;
-import control.Response;
-import control.CollectionManager;
+import control.*;
 import data.MusicBand;
 import data.description.Types;
 
 public class UpdateCommand extends Command {
 
-    public UpdateCommand(CollectionManager collectionManager) {
+    public UpdateCommand(CollectionManager collectionManager, UserManager userManager) {
         super(new CommandDescription(
                         "update",
                         "id",
@@ -17,18 +14,20 @@ public class UpdateCommand extends Command {
                         true,
                         "обновить значение элемента коллекции, id которого равен заданному"
                 ),
-                collectionManager
+                collectionManager,
+                userManager
         );
     }
 
     @Override
     public Response execute(Request request) {
-        Integer id = (Integer) request.getArgument();
+        Integer oldMusicBandId = (Integer) request.getArgument();
         MusicBand newMusicBand = request.getMusicBand();
-        for (MusicBand musicBand : super.collectionManager.getCollection()) {
-            if (musicBand.getId().equals(id)) {
-                super.collectionManager.remove(musicBand);
-                super.collectionManager.add(newMusicBand);
+        if ((!userManager.checkRights(request.getUserID(), oldMusicBandId)))
+            return new Response("У вас нет прав на изменение элементами с заданным id");
+        for (MusicBand oldMusicBand : super.collectionManager.getCollection()) {
+            if (newMusicBand.getId().equals(oldMusicBandId)) {
+                super.collectionManager.update(oldMusicBand, newMusicBand);
                 return new Response();
             }
         }

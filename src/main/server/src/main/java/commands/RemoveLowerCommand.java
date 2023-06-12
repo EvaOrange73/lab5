@@ -1,27 +1,25 @@
 package commands;
 
-import control.CommandDescription;
-import control.Request;
-import control.Response;
-import control.CollectionManager;
+import control.*;
 import data.MusicBand;
 
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
 
 public class RemoveLowerCommand extends Command {
 
-    public RemoveLowerCommand(CollectionManager collectionManager) {
-        super(new CommandDescription("remove_lower", "удалить из коллекции все элементы, меньшие, чем заданный",
-                true), collectionManager);
+    public RemoveLowerCommand(CollectionManager collectionManager, UserManager userManager) {
+        super(new CommandDescription("remove_lower", "удалить из коллекции все ваши элементы, меньшие, чем заданный",
+                true), collectionManager, userManager);
     }
 
     @Override
     public Response execute(Request request) {
         MusicBand musicBandReference = request.getMusicBand();
-        LinkedHashSet<MusicBand> musicBands = new LinkedHashSet<>(super.collectionManager.getCollection());
-        for (MusicBand musicBand : musicBands) {
+        ArrayList<Integer> ids = super.userManager.getListOfUserOwnedItemIds(request.getUserID());
+        for (Integer id: ids) {
+            MusicBand musicBand = super.collectionManager.getById(id);
             if (musicBand.compareTo(musicBandReference) < 0) {
-                super.collectionManager.remove(musicBand);
+                super.collectionManager.remove(id);
             }
         }
         return new Response();

@@ -7,25 +7,31 @@ import java.io.Serializable;
 
 public class Album extends Data implements Serializable {
     /**
+     * id в базе данных
+     */
+    @FieldAnnotation(name = "id", ColumnName = "id", printable = false, DBSets = true)
+    private int id;
+
+    /**
      * Поле не может быть null, Строка не может быть пустой
      */
-    @FieldAnnotation(name = "название альбома", nullable = false)
+    @FieldAnnotation(name = "название альбома", ColumnName = "name", nullable = false)
     private String name;
 
     /**
      * Поле может быть null, Значение поля должно быть больше 0
      */
-    @FieldAnnotation(name = "количество треков", isValidate = true)
+    @FieldAnnotation(name = "количество треков", ColumnName = "tracks", isValidate = true)
     private Integer tracks;
     /**
      * Значение поля должно быть больше 0
      */
-    @FieldAnnotation(name = "длина альбома", nullable = false, isValidate = true)
+    @FieldAnnotation(name = "длина альбома", ColumnName = "length", nullable = false, isValidate = true)
     private long length;
     /**
      * Значение поля должно быть больше 0
      */
-    @FieldAnnotation(name = "количество проданных копий", nullable = false, isValidate = true)
+    @FieldAnnotation(name = "количество проданных копий", ColumnName = "sales", nullable = false, isValidate = true)
     private long sales;
 
     public long getSales() {
@@ -49,7 +55,12 @@ public class Album extends Data implements Serializable {
     }
 
     @Override
+    public Integer getId() {
+        return this.id;
+    }
+
+    @Override
     public String toString() {
-        return super.toString("Альбом");
+        return super.toString();
     }
 }
