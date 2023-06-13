@@ -1,6 +1,7 @@
 package commands;
 
 import control.*;
+import control.response.CommandResponse;
 import data.MusicBand;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class RemoveLowerCommand extends Command {
     }
 
     @Override
-    public Response execute(Request request) {
+    public CommandResponse execute(Request request) {
         MusicBand musicBandReference = request.getMusicBand();
         ArrayList<Integer> ids = super.userManager.getListOfUserOwnedItemIds(request.getUserID());
         for (Integer id: ids) {
@@ -22,7 +23,7 @@ public class RemoveLowerCommand extends Command {
                 super.collectionManager.remove(id);
             }
         }
-        return new Response();
+        return new CommandResponse();
     }
 
 }

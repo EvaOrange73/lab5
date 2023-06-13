@@ -18,7 +18,7 @@ import java.util.Properties;
  *
  */
 public class DatabaseManager {
-    String url = "jdbc:postgresql://localhost:2224/studs";
+    String url = "jdbc:postgresql://localhost:2222/studs";
     Properties properties = new Properties();
 
     public DatabaseManager() throws IOException {
@@ -190,7 +190,6 @@ public class DatabaseManager {
         while (resultSet.next()) {
             Data o = dataType.getNewInstance();
             for (Field field : dataType.getDeclaredFields()) {
-                System.out.println(field.getName());
                 field.setAccessible(true);
                 FieldAnnotation annotation = field.getAnnotation(FieldAnnotation.class);
                 if (annotation.isCompositeDataType()) {

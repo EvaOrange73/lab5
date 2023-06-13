@@ -2,7 +2,7 @@ package commands;
 
 import control.CommandDescription;
 import control.Request;
-import control.Response;
+import control.response.CommandResponse;
 import control.CollectionManager;
 
 public class InfoCommand extends Command {
@@ -15,8 +15,8 @@ public class InfoCommand extends Command {
     }
 
     @Override
-    public Response execute(Request request) {
-        return new Response("Тип коллекции: " + this.collectionManager.getType() + "\n" +
+    public CommandResponse execute(Request request) {
+        return new CommandResponse("Тип коллекции: " + this.collectionManager.getType() + "\n" +
                 "Дата инициализации: " + this.collectionManager.getCreationDate() + "\n" +
                 "Количество элементов коллекции:" + this.collectionManager.getSize());
     }

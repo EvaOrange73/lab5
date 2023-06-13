@@ -2,7 +2,7 @@ package commands;
 
 import control.CommandDescription;
 import control.Request;
-import control.Response;
+import control.response.CommandResponse;
 import control.CollectionManager;
 import data.MusicBand;
 import data.description.Types;
@@ -22,11 +22,11 @@ public class FilterContainsDescriptionCommand extends Command {
     }
 
     @Override
-    public Response execute(Request request) {
+    public CommandResponse execute(Request request) {
         ArrayList<MusicBand> musicBands = new ArrayList<>();
         for (MusicBand musicBand : super.collectionManager.getCollection())
             if (musicBand.getDescription().contains((CharSequence) request.getArgument()))
                 musicBands.add(musicBand);
-        return new Response(musicBands);
+        return new CommandResponse(musicBands);
     }
 }

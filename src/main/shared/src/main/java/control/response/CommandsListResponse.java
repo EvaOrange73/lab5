@@ -1,11 +1,13 @@
-package control;
+package control.response;
+
+import control.CommandDescription;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CommandsList implements Serializable {
+public class CommandsListResponse extends Response implements Serializable {
     ArrayList<CommandDescription> commands;
-    public CommandsList(ArrayList<CommandDescription> commands){
+    public CommandsListResponse(ArrayList<CommandDescription> commands){
         this.commands = commands;
     }
 

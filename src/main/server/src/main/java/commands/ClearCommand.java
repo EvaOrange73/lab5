@@ -1,6 +1,7 @@
 package commands;
 
 import control.*;
+import control.response.CommandResponse;
 
 import java.util.ArrayList;
 
@@ -14,11 +15,11 @@ public class ClearCommand extends Command {
     }
 
     @Override
-    public Response execute(Request request) {
+    public CommandResponse execute(Request request) {
         ArrayList<Integer> ids = super.userManager.getListOfUserOwnedItemIds(request.getUserID());
         for (Integer id: ids) {
             super.collectionManager.remove(id);
         }
-        return new Response();
+        return new CommandResponse();
     }
 }

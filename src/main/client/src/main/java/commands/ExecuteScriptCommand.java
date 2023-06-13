@@ -3,7 +3,7 @@ package commands;
 import IO.IOManager;
 import data.description.Types;
 import control.Request;
-import control.Response;
+import control.response.CommandResponse;
 
 public class ExecuteScriptCommand extends ClientCommand {
 
@@ -21,8 +21,8 @@ public class ExecuteScriptCommand extends ClientCommand {
     }
 
     @Override
-    public Response execute(Request request) {
+    public CommandResponse execute(Request request) {
         this.ioManager.startExecuteScript((String) request.getArgument());
-        return new Response();
+        return new CommandResponse();
     }
 }

@@ -2,7 +2,7 @@ package commands;
 
 import control.CommandDescription;
 import control.Request;
-import control.Response;
+import control.response.CommandResponse;
 import control.CollectionManager;
 import data.MusicBand;
 
@@ -18,17 +18,17 @@ public class AddIfMaxCommand extends Command {
     }
 
     @Override
-    public Response execute(Request request) {
+    public CommandResponse execute(Request request) {
         for (MusicBand musicBand: super.collectionManager.getCollection()){
-            if (musicBand.equals(request.getMusicBand())) return new Response("В коллекции уже есть такой экземпляр.");
+            if (musicBand.equals(request.getMusicBand())) return new CommandResponse("В коллекции уже есть такой экземпляр.");
         }
         MusicBand musicBand = request.getMusicBand();
         MusicBand maxElement = super.collectionManager.getMaxElement();
         if (musicBand.compareTo(maxElement) > 0) {
             super.collectionManager.add(musicBand);
-            return new Response("элемент добавлен в коллекцию");
+            return new CommandResponse("элемент добавлен в коллекцию");
         } else {
-            return new Response("элемент не добавлен в коллекцию");
+            return new CommandResponse("элемент не добавлен в коллекцию");
         }
     }
 }

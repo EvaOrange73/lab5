@@ -1,4 +1,4 @@
-package control;
+package control.response;
 
 import data.MusicBand;
 import data.description.MusicBandByCoordsComparator;
@@ -9,31 +9,31 @@ import java.util.ArrayList;
 /**
  * Формат ответов от сервера
  */
-public class Response implements Serializable {
+public class CommandResponse extends Response implements Serializable {
     private final boolean exception;
     private final String text;
     private final ArrayList<MusicBand> musicBandAList;
 
-    public Response(boolean exception, String text, ArrayList<MusicBand> musicBandAList) {
+    public CommandResponse(boolean exception, String text, ArrayList<MusicBand> musicBandAList) {
         this.exception = exception;
         this.text = text;
         if (musicBandAList != null) musicBandAList.sort(new MusicBandByCoordsComparator());
         this.musicBandAList = musicBandAList;
     }
 
-    public Response() {
+    public CommandResponse() {
         this(false, "", null);
     }
 
-    public Response(String text) {
+    public CommandResponse(String text) {
         this(false, text, null);
     }
 
-    public Response(ArrayList<MusicBand> musicBandAList) {
+    public CommandResponse(ArrayList<MusicBand> musicBandAList) {
         this(false, "", musicBandAList);
     }
 
-    public Response(boolean exception){
+    public CommandResponse(boolean exception){
         this(exception, "", null);
     }
 

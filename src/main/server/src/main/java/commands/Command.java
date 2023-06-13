@@ -1,6 +1,7 @@
 package commands;
 
 import control.*;
+import control.response.CommandResponse;
 
 /**
  * Абстрактный класс для команды
@@ -21,7 +22,7 @@ public abstract class Command {
         this(commandDescription, collectionManager, null);
     }
 
-    public abstract Response execute(Request request);
+    public abstract CommandResponse execute(Request request);
 
     public String getName() {
         return this.commandDescription.getName();

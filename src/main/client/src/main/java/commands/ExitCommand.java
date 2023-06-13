@@ -1,7 +1,7 @@
 package commands;
 
 import control.Request;
-import control.Response;
+import control.response.CommandResponse;
 
 public class ExitCommand extends ClientCommand {
     public ExitCommand() {
@@ -9,8 +9,8 @@ public class ExitCommand extends ClientCommand {
     }
 
     @Override
-    public Response execute(Request request) {
+    public CommandResponse execute(Request request) {
         System.exit(0);
-        return new Response();
+        return new CommandResponse();
     }
 }

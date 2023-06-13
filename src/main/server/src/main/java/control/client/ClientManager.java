@@ -1,21 +1,27 @@
-package control;
+package control.client;
 
-import data.User;
+import control.CommandManager;
+import control.UserManager;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 
 /**
  * Менеджер клиента - класс, отвечающий за обработку запросов и отправку ответов клиентам
  */
 public class ClientManager {
     private final CommandManager commandManager;
-    private final ServerSocketChannel serverSocket;
     private final UserManager userManager;
+    private final ServerSocketChannel serverSocket;
+    private final ClientPool clientPool;
+    private Thread readRequestThread;
+    private final ForkJoinPool prepareResponsePool;
+    private final ExecutorService sendResponsePool;
 
     public ClientManager(int port, CommandManager commandManager, UserManager userManager) {
         this.commandManager = commandManager;
@@ -27,6 +33,11 @@ public class ClientManager {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        this.clientPool = new ClientPool();
+        int p = Runtime.getRuntime().availableProcessors() / 2;
+        this.prepareResponsePool = new ForkJoinPool(p);
+        this.sendResponsePool = Executors.newFixedThreadPool(p);
+
     }
 
     public void close() {
@@ -38,25 +49,17 @@ public class ClientManager {
     }
 
     public void connectClient() {
-        try (SocketChannel client = serverSocket.accept()) {
+        try {
+            SocketChannel client = serverSocket.accept();
             if (client != null) {
-                ObjectInputStream in = new ObjectInputStream(client.socket().getInputStream());
-                Request request = (Request) in.readObject();
-                ObjectOutputStream out = new ObjectOutputStream(client.socket().getOutputStream());
-                sendResponse(request, out);
+                clientPool.addClientToReadRequest(new Client(client.socket()));
+                this.readRequestThread = new Thread(new ReadRequest(clientPool));
+                this.readRequestThread.start();
+                this.prepareResponsePool.execute(new PrepareResponse(clientPool, userManager, commandManager));
+                this.sendResponsePool.submit(new SendResponse(clientPool));
             }
-        } catch (ClassNotFoundException e) {
-            System.out.println("на сервер пришел запрос в неверном формате");
         } catch (IOException e) {
             System.out.println(e.getMessage());
-        }
-    }
-
-    public void sendResponse(Request request, ObjectOutputStream out) throws IOException {
-        switch (request.getCommandName()) {
-            case "authorize" -> out.writeObject(userManager.authorize((User) request.getArgument()));
-            case "getCommands" -> out.writeObject(new CommandsList(commandManager.getCommandDescriptions()));
-            default -> out.writeObject(this.commandManager.execute(request));
         }
     }
 }

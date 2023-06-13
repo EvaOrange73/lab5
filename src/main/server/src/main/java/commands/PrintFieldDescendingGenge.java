@@ -2,7 +2,7 @@ package commands;
 
 import control.CommandDescription;
 import control.Request;
-import control.Response;
+import control.response.CommandResponse;
 import control.CollectionManager;
 import data.MusicBand;
 import data.MusicGenre;
@@ -19,7 +19,7 @@ public class PrintFieldDescendingGenge extends Command {
     }
 
     @Override
-    public Response execute(Request request) {
+    public CommandResponse execute(Request request) {
         ArrayList<MusicGenre> genres = new ArrayList<>();
         for (MusicBand musicBand : super.collectionManager.getCollection()) {
             genres.add(musicBand.getGenre());
@@ -28,7 +28,7 @@ public class PrintFieldDescendingGenge extends Command {
         StringBuilder genresText = new StringBuilder();
         for (MusicGenre genre : genres)
             genresText.append(genre.toString());
-        return new Response(genresText.toString());
+        return new CommandResponse(genresText.toString());
     }
 
 }

@@ -1,6 +1,7 @@
 package commands;
 
 import control.*;
+import control.response.CommandResponse;
 import data.MusicBand;
 import data.description.Types;
 
@@ -21,16 +22,16 @@ public class RemoveByIdCommand extends Command {
     }
 
     @Override
-    public Response execute(Request request) {
+    public CommandResponse execute(Request request) {
         long argument = (Long) request.getArgument();
         ArrayList<Integer> ids = super.userManager.getListOfUserOwnedItemIds(request.getUserID());
         for (Integer id: ids) {
             MusicBand musicBand = super.collectionManager.getById(id);
             if (musicBand.getId() == argument) {
                 super.collectionManager.remove(id);
-                return new Response();
+                return new CommandResponse();
             }
         }
-        return new Response("В коллекции нет вашего элемента с таким id");
+        return new CommandResponse("В коллекции нет вашего элемента с таким id");
     }
 }

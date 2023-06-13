@@ -3,7 +3,7 @@ package commands;
 import control.CommandDescription;
 import data.description.Types;
 import control.Request;
-import control.Response;
+import control.response.CommandResponse;
 
 /**
  * Команды, которые клиент выполняет самостоятельно, не спрашивая сервер: help, exit, execute_script
@@ -17,5 +17,5 @@ public abstract class ClientCommand extends CommandDescription {
         super(name, null, null, false, description);
     }
 
-    public abstract Response execute(Request request);
+    public abstract CommandResponse execute(Request request);
 }

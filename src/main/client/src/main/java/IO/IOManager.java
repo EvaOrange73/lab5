@@ -93,11 +93,12 @@ public class IOManager {
         String password = this.input.nextLine();
         if (!(password.isEmpty())) user.setPassword(password);
         try {
-            user = this.serverManager.authorize(user);
-            if (user == null) {
+            Integer userId = this.serverManager.authorize(user);
+            if (userId == null) {
                 this.print("Неверный пароль");
                 return this.authorize(counter + 1);
             }
+            user.setId(userId);
         } catch (IOException e) {
             this.print("Сервер временно недоступен. Попробуйте позже.");
             return this.authorize(counter);

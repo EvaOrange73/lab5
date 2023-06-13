@@ -6,7 +6,7 @@ import IO.InputExceptions.ArgumentException;
 import IO.InputExceptions.FieldsException;
 import data.MusicBand;
 import control.Request;
-import control.Response;
+import control.response.CommandResponse;
 import server.ServerManager;
 
 import java.io.IOException;
@@ -71,11 +71,11 @@ public class CommandManager {
         if (commandDescription == null) return "такой команды нет, \n" +
                 "Посмотрите список доступных команд: help";
 
-        Response response;
+        CommandResponse commandResponse;
 
         if (commandDescription instanceof ClientCommand) {
-            response = ((ClientCommand) commandDescription).execute(new Request(commandName, argumentName, userId));
-            if (response.hasException()) return "сервер временно недоступен";
+            commandResponse = ((ClientCommand) commandDescription).execute(new Request(commandName, argumentName, userId));
+            if (commandResponse.hasException()) return "сервер временно недоступен";
         }
         else {
             Request request;
@@ -89,15 +89,15 @@ public class CommandManager {
                     commandDescription.getArgumentType().toString())
             ).toString();
             try {
-                response = serverManager.request(request);
+                commandResponse = serverManager.request(request);
             } catch (IOException e) {
                 return "сервер временно недоступен";
             }
-            if (response.hasException()) return "при выполнении команды возникла ошибка";
+            if (commandResponse.hasException()) return "при выполнении команды возникла ошибка";
         }
-        StringBuilder answer = new StringBuilder(response.getText());
-        if (response.getMusicBandAList() != null)
-            for (MusicBand musicBand : response.getMusicBandAList()) {
+        StringBuilder answer = new StringBuilder(commandResponse.getText());
+        if (commandResponse.getMusicBandAList() != null)
+            for (MusicBand musicBand : commandResponse.getMusicBandAList()) {
                 answer.append("\n").append(musicBand.toString());
             }
         answer.append("\n").append("команда ").append(commandName).append(" завершена");

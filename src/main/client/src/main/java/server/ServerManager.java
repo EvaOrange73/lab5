@@ -1,9 +1,10 @@
 package server;
 
 import control.CommandDescription;
-import control.CommandsList;
+import control.response.AuthorizeResponse;
+import control.response.CommandsListResponse;
 import control.Request;
-import control.Response;
+import control.response.CommandResponse;
 import data.User;
 
 import java.io.*;
@@ -30,33 +31,33 @@ public class ServerManager {
             ObjectOutputStream out = new ObjectOutputStream(server.socket().getOutputStream());
             out.writeObject(new Request("getCommands", userId));
             ObjectInputStream in = new ObjectInputStream(server.socket().getInputStream());
-            return ((CommandsList) in.readObject()).getCommands();
+            return ((CommandsListResponse) in.readObject()).getCommands();
         } catch (ClassNotFoundException | IOException e) { //TODO это плохая идея
             throw new RuntimeException("что-то пошло не так при отправке списка команд с сервера");
         }
     }
 
-    public Response request(Request request) throws IOException {
+    public CommandResponse request(Request request) throws IOException {
         try (SocketChannel server = SocketChannel.open()) {
             SocketAddress socketAddr = new InetSocketAddress("localhost", 9000);
             server.connect(socketAddr);
             ObjectOutputStream out = new ObjectOutputStream(server.socket().getOutputStream());
             out.writeObject(request);
             ObjectInputStream in = new ObjectInputStream(server.socket().getInputStream());
-            return (Response) in.readObject();
+            return (CommandResponse) in.readObject();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("что-то пошло не так при отправке команды на сервер");
         }
     }
 
-    public User authorize(User user) throws IOException{
+    public Integer authorize(User user) throws IOException{
         try (SocketChannel server = SocketChannel.open()) {
             SocketAddress socketAddr = new InetSocketAddress("localhost", 9000);
             server.connect(socketAddr);
             ObjectOutputStream out = new ObjectOutputStream(server.socket().getOutputStream());
             out.writeObject(new Request("authorize", user, null));
             ObjectInputStream in = new ObjectInputStream(server.socket().getInputStream());
-            return (User) in.readObject();
+            return ((AuthorizeResponse) in.readObject()).getUserId();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("что-то пошло не так при авторизации");
         }

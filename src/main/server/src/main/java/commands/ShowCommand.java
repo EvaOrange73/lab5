@@ -2,7 +2,7 @@ package commands;
 
 import control.CommandDescription;
 import control.Request;
-import control.Response;
+import control.response.CommandResponse;
 import control.CollectionManager;
 import data.MusicBand;
 
@@ -19,9 +19,9 @@ public class ShowCommand extends Command {
     }
 
     @Override
-    public Response execute(Request request) {
+    public CommandResponse execute(Request request) {
         LinkedHashSet<MusicBand> collection = this.collectionManager.getCollection();
-        if (collection.isEmpty()) return new Response("Коллекция пуста");
-        return new Response(new ArrayList<>(collection));
+        if (collection.isEmpty()) return new CommandResponse("Коллекция пуста");
+        return new CommandResponse(new ArrayList<>(collection));
     }
 }

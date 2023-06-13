@@ -1,6 +1,7 @@
 package commands;
 
 import control.*;
+import control.response.CommandResponse;
 import data.MusicBand;
 import data.description.Types;
 
@@ -18,16 +19,16 @@ public class RemoveAnyByDescriptionCommand extends Command {
     }
 
     @Override
-    public Response execute(Request request) {
+    public CommandResponse execute(Request request) {
         ArrayList<Integer> ids = super.userManager.getListOfUserOwnedItemIds(request.getUserID());
         for (Integer id: ids) {
             MusicBand musicBand = super.collectionManager.getById(id);
             if (musicBand.getDescription().equals(request.getArgument())) {
                 super.collectionManager.remove(id);
-                return new Response();
+                return new CommandResponse();
             }
         }
-        return new Response("В коллекции нет вашего элемента с таким description");
+        return new CommandResponse("В коллекции нет вашего элемента с таким description");
     }
 
 }

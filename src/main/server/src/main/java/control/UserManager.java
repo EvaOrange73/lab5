@@ -14,14 +14,13 @@ public class UserManager {
         this.collectionManager = collectionManager;
     }
 
-    public User authorize(User user) {
+    public Integer authorize(User user) {
         User userFromDatabase = this.databaseManager.getUserByName(user.getUsername());
         if (userFromDatabase == null) {
-            user.setId(this.databaseManager.insertAndGetId(user));
-            return user;
+            return this.databaseManager.insertAndGetId(user);
         } else {
             if (user.getPassword().equals(userFromDatabase.getPassword())) {
-                return userFromDatabase;
+                return userFromDatabase.getId();
             }
             else
                 return null;

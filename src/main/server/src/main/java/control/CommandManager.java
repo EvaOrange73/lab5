@@ -1,6 +1,7 @@
 package control;
 
 import commands.*;
+import control.response.CommandResponse;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -56,7 +57,7 @@ public class CommandManager {
      * @param request запрос от клиента
      * @return ответ от сервера
      */
-    public Response execute(Request request) {
+    public CommandResponse execute(Request request) {
         return commands.get(request.getCommandName()).execute(request);
     }
 }
