@@ -110,6 +110,10 @@ public class MusicBand extends Data implements Comparable<MusicBand>, Serializab
         return this.id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public Integer getCreatorId(){
         return this.creatorId;
     }

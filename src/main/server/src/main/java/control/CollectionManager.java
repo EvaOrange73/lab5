@@ -56,13 +56,14 @@ public class CollectionManager {
     }
 
     public void add(MusicBand musicBand) {
-        databaseManager.insertAndGetId(musicBand);
+        Integer id = databaseManager.insertAndGetId(musicBand);
+        musicBand.setId(id);
         collection.add(musicBand);
         this.sort();
     }
 
     public void update(MusicBand oldMusicBand, MusicBand newMusicBand) {
-        databaseManager.update(newMusicBand);
+        databaseManager.update(oldMusicBand.getId(), newMusicBand);
         collection.remove(oldMusicBand);
         collection.add(newMusicBand);
         this.sort();

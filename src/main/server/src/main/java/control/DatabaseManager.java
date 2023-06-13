@@ -53,10 +53,10 @@ public class DatabaseManager {
         }
     }
 
-    public void update(Data o) {
+    public void update(Integer oldId, Data o) {
         try {
             Connection connection = DriverManager.getConnection(url, properties);
-            PreparedStatement statement = connection.prepareStatement(o.getUpdateQuery(o.getId()));
+            PreparedStatement statement = connection.prepareStatement(o.getUpdateQuery(oldId));
             Field[] fields = o.getClass().getDeclaredFields();
             int i = 0;
             for (Field field : fields) {
@@ -64,16 +64,19 @@ public class DatabaseManager {
                 field.setAccessible(true);
                 if (!(annotation.DBSets())) {
                     if (annotation.isCompositeDataType()) {
-                        update((Data) field.get(o));
+                        Data composite = (Data) field.get(o);
+                        if(composite != null)
+                            update(composite.getId(), composite);
                     } else if (annotation.isEnum()) {
                         statement.setObject(i + 1, selectId((MusicGenre) field.get(o)));
+                        i++;
                     } else {
                         statement.setObject(i + 1, field.get(o));
+                        i++;
                     }
-                    i++;
                 }
             }
-            statement.executeQuery();
+            statement.executeUpdate();
         } catch (SQLException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
