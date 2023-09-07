@@ -16,17 +16,17 @@ public class ClientPool {
 
     public synchronized void addClientToReadRequest(Client client){
         toReadRequest.add(client);
-        notify();
+        notifyAll();
     }
 
     public synchronized void addClientToPrepareResponse(Client client){
         toPrepareResponse.add(client);
-        notify();
+        notifyAll();
     }
 
     public synchronized void addClientToSendResponse(Client client){
         toSendResponse.add(client);
-        notify();
+        notifyAll();
     }
 
     public synchronized Client getClientToReadRequest(){

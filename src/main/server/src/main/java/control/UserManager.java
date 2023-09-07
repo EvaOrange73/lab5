@@ -3,6 +3,10 @@ package control;
 import data.MusicBand;
 import data.User;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class UserManager {
@@ -14,13 +18,26 @@ public class UserManager {
         this.collectionManager = collectionManager;
     }
 
-    public Integer authorize(User user) {
+    public String getHash(String str){
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("MD2");
+            messageDigest.update(str.getBytes(StandardCharsets.UTF_8));
+            return new BigInteger(1,messageDigest.digest()).toString(16);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public User authorize(User user) {
         User userFromDatabase = this.databaseManager.getUserByName(user.getUsername());
         if (userFromDatabase == null) {
-            return this.databaseManager.insertAndGetId(user);
+            user.generateSalt();
+            user.setPassword(getHash("pepper" + user.getSalt() + user.getPassword()));
+            user.setId(this.databaseManager.insertAndGetId(user));
+            return user;
         } else {
-            if (user.getPassword().equals(userFromDatabase.getPassword())) {
-                return userFromDatabase.getId();
+            if (getHash(userFromDatabase.getSalt() + user.getPassword()).equals(userFromDatabase.getPassword())) {
+                return userFromDatabase;
             }
             else
                 return null;

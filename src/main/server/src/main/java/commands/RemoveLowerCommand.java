@@ -16,7 +16,7 @@ public class RemoveLowerCommand extends Command {
     @Override
     public CommandResponse execute(Request request) {
         MusicBand musicBandReference = request.getMusicBand();
-        ArrayList<Integer> ids = super.userManager.getListOfUserOwnedItemIds(request.getUserID());
+        ArrayList<Integer> ids = super.userManager.getListOfUserOwnedItemIds(request.getUser().getId());
         for (Integer id: ids) {
             MusicBand musicBand = super.collectionManager.getById(id);
             if (musicBand.compareTo(musicBandReference) < 0) {

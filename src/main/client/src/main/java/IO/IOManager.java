@@ -93,17 +93,16 @@ public class IOManager {
         String password = this.input.nextLine();
         if (!(password.isEmpty())) user.setPassword(password);
         try {
-            Integer userId = this.serverManager.authorize(user);
-            if (userId == null) {
+            User userFromServer = this.serverManager.authorize(user);
+            if (userFromServer == null) {
                 this.print("Неверный пароль");
                 return this.authorize(counter + 1);
             }
-            user.setId(userId);
+            return userFromServer;
         } catch (IOException e) {
             this.print("Сервер временно недоступен. Попробуйте позже.");
             return this.authorize(counter);
         }
-        return user;
     }
 
     public void printStartMessage() {
@@ -133,7 +132,7 @@ public class IOManager {
             String command = this.input.nextLine();
             if (!(command.isEmpty())) {
                 if (this.input == Input.SCRIPT) print("\nкоманда " + command);
-                this.print(this.commandManager.execute(command, user.getId()));
+                this.print(this.commandManager.execute(command, user));
             }
         }
         if (this.input.hasPreviousFile())

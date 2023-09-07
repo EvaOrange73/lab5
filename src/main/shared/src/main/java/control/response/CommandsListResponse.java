@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class CommandsListResponse extends Response implements Serializable {
     ArrayList<CommandDescription> commands;
     public CommandsListResponse(ArrayList<CommandDescription> commands){
+        super(false);
         this.commands = commands;
     }
 

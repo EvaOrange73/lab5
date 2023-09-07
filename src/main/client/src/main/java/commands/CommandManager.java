@@ -7,6 +7,7 @@ import IO.InputExceptions.FieldsException;
 import data.MusicBand;
 import control.Request;
 import control.response.CommandResponse;
+import data.User;
 import server.ServerManager;
 
 import java.io.IOException;
@@ -63,7 +64,7 @@ public class CommandManager {
      * @param input команда, введенная пользователем
      * @return о
      */
-    public String execute(String input, int userId) {
+    public String execute(String input, User user) {
         String[] words = input.split(" ");
         String commandName = words[0];
         String argumentName = words.length == 1 ? null : words[1];
@@ -74,13 +75,13 @@ public class CommandManager {
         CommandResponse commandResponse;
 
         if (commandDescription instanceof ClientCommand) {
-            commandResponse = ((ClientCommand) commandDescription).execute(new Request(commandName, argumentName, userId));
+            commandResponse = ((ClientCommand) commandDescription).execute(new Request(commandName, argumentName, user));
             if (commandResponse.hasException()) return "сервер временно недоступен";
         }
         else {
             Request request;
             try {
-                request = validateCommand(commandName, argumentName, commandDescription, userId);
+                request = validateCommand(commandName, argumentName, commandDescription, user);
             } catch (FieldsException e) {
                 return e.toString();
             }
@@ -104,8 +105,8 @@ public class CommandManager {
         return answer.toString();
     }
 
-    private Request validateCommand(String commandName, String argumentName, CommandDescription commandDescription, int userId) throws FieldsException {
-        Request request = new Request(commandName, userId);
+    private Request validateCommand(String commandName, String argumentName, CommandDescription commandDescription, User user) throws FieldsException {
+        Request request = new Request(commandName, user);
 
         if (commandDescription.getArgumentName() != null) {
             if (argumentName == null)

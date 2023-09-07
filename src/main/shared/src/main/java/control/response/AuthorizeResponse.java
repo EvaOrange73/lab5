@@ -1,15 +1,18 @@
 package control.response;
 
+import data.User;
+
 import java.io.Serializable;
 
 public class AuthorizeResponse extends Response implements Serializable {
-    private final int userId;
+    private final User user;
 
-    public AuthorizeResponse(int userId){
-        this.userId = userId;
+    public AuthorizeResponse(User user){
+        super(false);
+        this.user = user;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 }

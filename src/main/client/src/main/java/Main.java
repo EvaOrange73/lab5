@@ -14,7 +14,7 @@ public class Main {
         User user = ioManager.authorize();
         ioManager.setUser(user);
         if (user != null) {
-            commandManager.addCommands(serverManager.askCommands(user.getId()));
+            commandManager.addCommands(serverManager.askCommands(user));
             ioManager.printStartMessage();
             ioManager.readCommands();
         }

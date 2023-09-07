@@ -24,7 +24,7 @@ public class RemoveByIdCommand extends Command {
     @Override
     public CommandResponse execute(Request request) {
         long argument = (Long) request.getArgument();
-        ArrayList<Integer> ids = super.userManager.getListOfUserOwnedItemIds(request.getUserID());
+        ArrayList<Integer> ids = super.userManager.getListOfUserOwnedItemIds(request.getUser().getId());
         for (Integer id: ids) {
             MusicBand musicBand = super.collectionManager.getById(id);
             if (musicBand.getId() == argument) {

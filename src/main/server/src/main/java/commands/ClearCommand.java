@@ -16,7 +16,7 @@ public class ClearCommand extends Command {
 
     @Override
     public CommandResponse execute(Request request) {
-        ArrayList<Integer> ids = super.userManager.getListOfUserOwnedItemIds(request.getUserID());
+        ArrayList<Integer> ids = super.userManager.getListOfUserOwnedItemIds(request.getUser().getId());
         for (Integer id: ids) {
             super.collectionManager.remove(id);
         }

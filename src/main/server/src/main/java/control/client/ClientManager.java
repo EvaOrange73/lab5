@@ -19,7 +19,6 @@ public class ClientManager {
     private final UserManager userManager;
     private final ServerSocketChannel serverSocket;
     private final ClientPool clientPool;
-    private Thread readRequestThread;
     private final ForkJoinPool prepareResponsePool;
     private final ExecutorService sendResponsePool;
 
@@ -52,9 +51,10 @@ public class ClientManager {
         try {
             SocketChannel client = serverSocket.accept();
             if (client != null) {
+
                 clientPool.addClientToReadRequest(new Client(client.socket()));
-                this.readRequestThread = new Thread(new ReadRequest(clientPool));
-                this.readRequestThread.start();
+                Thread readRequestThread = new Thread(new ReadRequest(clientPool));
+                readRequestThread.start();
                 this.prepareResponsePool.execute(new PrepareResponse(clientPool, userManager, commandManager));
                 this.sendResponsePool.submit(new SendResponse(clientPool));
             }

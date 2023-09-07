@@ -1,6 +1,7 @@
 package control;
 
 import data.MusicBand;
+import data.User;
 
 import java.io.Serializable;
 
@@ -11,16 +12,16 @@ public class Request implements Serializable {
     private final String commandName;
     private Object argument;
     private MusicBand musicBand;
-    private final Integer userID;
+    private final User user;
 
-    public Request(String commandName, Object argument, Integer userID) {
+    public Request(String commandName, Object argument, User user) {
         this.commandName = commandName;
         this.argument = argument;
-        this.userID = userID;
+        this.user = user;
     }
 
-    public Request(String commandName, Integer userID) {
-        this(commandName, null, userID);
+    public Request(String commandName, User user) {
+        this(commandName, null, user);
     }
 
     public void setArgument(Object argument) {
@@ -43,7 +44,7 @@ public class Request implements Serializable {
         return this.musicBand;
     }
 
-    public int getUserID() {
-        return userID;
+    public User getUser() {
+        return this.user;
     }
 }

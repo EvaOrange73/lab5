@@ -15,6 +15,7 @@ public class CommandResponse extends Response implements Serializable {
     private final ArrayList<MusicBand> musicBandAList;
 
     public CommandResponse(boolean exception, String text, ArrayList<MusicBand> musicBandAList) {
+        super(false);
         this.exception = exception;
         this.text = text;
         if (musicBandAList != null) musicBandAList.sort(new MusicBandByCoordsComparator());
@@ -33,7 +34,7 @@ public class CommandResponse extends Response implements Serializable {
         this(false, "", musicBandAList);
     }
 
-    public CommandResponse(boolean exception){
+    public CommandResponse(boolean exception) {
         this(exception, "", null);
     }
 

@@ -20,7 +20,7 @@ public class RemoveAnyByDescriptionCommand extends Command {
 
     @Override
     public CommandResponse execute(Request request) {
-        ArrayList<Integer> ids = super.userManager.getListOfUserOwnedItemIds(request.getUserID());
+        ArrayList<Integer> ids = super.userManager.getListOfUserOwnedItemIds(request.getUser().getId());
         for (Integer id: ids) {
             MusicBand musicBand = super.collectionManager.getById(id);
             if (musicBand.getDescription().equals(request.getArgument())) {

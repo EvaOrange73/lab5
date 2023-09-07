@@ -2,6 +2,7 @@ create table users
 (
     id       serial primary key,
     username text unique not null,
+    salt text,
     password text
 );
 create table albums

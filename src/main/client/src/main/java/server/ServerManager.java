@@ -24,12 +24,12 @@ public class ServerManager {
         this.port = port;
     }
 
-    public ArrayList<CommandDescription> askCommands(Integer userId){
+    public ArrayList<CommandDescription> askCommands(User user){
         try (SocketChannel server = SocketChannel.open()) {
             SocketAddress socketAddr = new InetSocketAddress("localhost", port);
             server.connect(socketAddr);
             ObjectOutputStream out = new ObjectOutputStream(server.socket().getOutputStream());
-            out.writeObject(new Request("getCommands", userId));
+            out.writeObject(new Request("getCommands", user));
             ObjectInputStream in = new ObjectInputStream(server.socket().getInputStream());
             return ((CommandsListResponse) in.readObject()).getCommands();
         } catch (ClassNotFoundException | IOException e) { //TODO это плохая идея
@@ -39,7 +39,7 @@ public class ServerManager {
 
     public CommandResponse request(Request request) throws IOException {
         try (SocketChannel server = SocketChannel.open()) {
-            SocketAddress socketAddr = new InetSocketAddress("localhost", 9000);
+            SocketAddress socketAddr = new InetSocketAddress("localhost", port);
             server.connect(socketAddr);
             ObjectOutputStream out = new ObjectOutputStream(server.socket().getOutputStream());
             out.writeObject(request);
@@ -50,14 +50,14 @@ public class ServerManager {
         }
     }
 
-    public Integer authorize(User user) throws IOException{
+    public User authorize(User user) throws IOException{
         try (SocketChannel server = SocketChannel.open()) {
-            SocketAddress socketAddr = new InetSocketAddress("localhost", 9000);
+            SocketAddress socketAddr = new InetSocketAddress("localhost", port);
             server.connect(socketAddr);
             ObjectOutputStream out = new ObjectOutputStream(server.socket().getOutputStream());
-            out.writeObject(new Request("authorize", user, null));
+            out.writeObject(new Request("authorize", user));
             ObjectInputStream in = new ObjectInputStream(server.socket().getInputStream());
-            return ((AuthorizeResponse) in.readObject()).getUserId();
+            return ((AuthorizeResponse) in.readObject()).getUser();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("что-то пошло не так при авторизации");
         }
