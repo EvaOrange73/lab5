@@ -98,7 +98,7 @@ public class IOManager {
                 this.print("Неверный пароль");
                 return this.authorize(counter + 1);
             }
-            return userFromServer;
+            return user;
         } catch (IOException e) {
             this.print("Сервер временно недоступен. Попробуйте позже.");
             return this.authorize(counter);

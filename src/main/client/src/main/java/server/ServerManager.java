@@ -5,6 +5,7 @@ import control.response.AuthorizeResponse;
 import control.response.CommandsListResponse;
 import control.Request;
 import control.response.CommandResponse;
+import control.response.Response;
 import data.User;
 
 import java.io.*;
@@ -32,7 +33,7 @@ public class ServerManager {
             out.writeObject(new Request("getCommands", user));
             ObjectInputStream in = new ObjectInputStream(server.socket().getInputStream());
             return ((CommandsListResponse) in.readObject()).getCommands();
-        } catch (ClassNotFoundException | IOException e) { //TODO это плохая идея
+        } catch (ClassNotFoundException | IOException e) {
             throw new RuntimeException("что-то пошло не так при отправке списка команд с сервера");
         }
     }
@@ -57,7 +58,12 @@ public class ServerManager {
             ObjectOutputStream out = new ObjectOutputStream(server.socket().getOutputStream());
             out.writeObject(new Request("authorize", user));
             ObjectInputStream in = new ObjectInputStream(server.socket().getInputStream());
-            return ((AuthorizeResponse) in.readObject()).getUser();
+            Object response = in.readObject();
+            if (((Response) response).hasAuthorizeError()){
+                return null;
+            }
+            user.setId(((AuthorizeResponse) response).getUser().getId());
+            return user;
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("что-то пошло не так при авторизации");
         }
