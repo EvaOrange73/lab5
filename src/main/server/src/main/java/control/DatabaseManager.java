@@ -18,7 +18,7 @@ import java.util.Properties;
  *
  */
 public class DatabaseManager {
-    String url = "jdbc:postgresql://localhost:2222/studs";
+    String url = "jdbc:postgresql://localhost:5432/studs";
     Properties properties = new Properties();
 
     public DatabaseManager() throws IOException {

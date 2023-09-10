@@ -36,8 +36,9 @@ public class UserManager {
             user.setId(this.databaseManager.insertAndGetId(user));
             return user;
         } else {
-            if (getHash(userFromDatabase.getSalt() + user.getPassword()).equals(userFromDatabase.getPassword())) {
-                return userFromDatabase;
+            if (getHash("pepper" + userFromDatabase.getSalt() + user.getPassword()).equals(userFromDatabase.getPassword())) {
+                user.setId(userFromDatabase.getId());
+                return user;
             }
             else
                 return null;

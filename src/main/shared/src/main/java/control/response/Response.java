@@ -8,4 +8,8 @@ public class Response implements Serializable {
     public Response(boolean authorizeError) {
         this.authorizeError = authorizeError;
     }
+
+    public boolean hasAuthorizeError() {
+        return authorizeError;
+    }
 }
