@@ -1,3 +1,9 @@
+drop table music_bands;
+drop table music_genres;
+drop table coordinates;
+drop table albums;
+drop table users;
+
 create table users
 (
     id       serial primary key,

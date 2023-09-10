@@ -15,7 +15,7 @@ import java.util.LinkedHashSet;
 import java.util.Properties;
 
 /**
- *
+ * Класс, отвечающий за отправку запросов базе данных
  */
 public class DatabaseManager {
     String url = "jdbc:postgresql://localhost:5432/studs";
@@ -47,8 +47,8 @@ public class DatabaseManager {
             PreparedStatement statement = connection.prepareStatement("delete from music_bands where id = ?;");
             statement.setInt(1, musicBandId);
             statement.execute();
-
         } catch (SQLException e) {
+            System.out.println(e.toString());
             throw new RuntimeException();
         }
     }
