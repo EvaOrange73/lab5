@@ -24,6 +24,7 @@ public class UpdateCommand extends Command {
     public CommandResponse execute(Request request) {
         Integer oldMusicBandId = (Integer) request.getArgument();
         MusicBand newMusicBand = request.getMusicBand();
+        newMusicBand.setId(oldMusicBandId);
         if ((!userManager.checkRights(request.getUser().getId(), oldMusicBandId)))
             return new CommandResponse("У вас нет прав на изменение элементами с заданным id");
         for (MusicBand oldMusicBand : super.collectionManager.getCollection()) {
