@@ -65,8 +65,10 @@ public class DatabaseManager {
                 if (!(annotation.DBSets())) {
                     if (annotation.isCompositeDataType()) {
                         Data composite = (Data) field.get(o);
-                        if(composite != null)
-                            update(composite.getId(), composite);
+                        if(composite != null) {
+                            int compositeId = getCompositeId(annotation.ColumnName(), oldId);
+                            update(compositeId, composite);
+                        }
                     } else if (annotation.isEnum()) {
                         statement.setObject(i + 1, selectId((MusicGenre) field.get(o)));
                         i++;
@@ -206,5 +208,17 @@ public class DatabaseManager {
             list.add(o);
         }
         return list;
+    }
+
+    private int getCompositeId(String columnName, int id){
+        try {
+            Connection connection = DriverManager.getConnection(url, properties);
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery("select " + columnName + " from music_bands where id = '" + id + "'");
+            rs.next();
+            return (Integer) rs.getObject(columnName);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
