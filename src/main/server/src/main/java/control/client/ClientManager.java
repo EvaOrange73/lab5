@@ -40,6 +40,8 @@ public class ClientManager {
     }
 
     public void close() {
+        prepareResponsePool.shutdown();
+        sendResponsePool.shutdown();
         try {
             this.serverSocket.close();
         } catch (IOException e) {
@@ -51,7 +53,6 @@ public class ClientManager {
         try {
             SocketChannel client = serverSocket.accept();
             if (client != null) {
-
                 clientPool.addClientToReadRequest(new Client(client.socket()));
                 Thread readRequestThread = new Thread(new ReadRequest(clientPool));
                 readRequestThread.start();

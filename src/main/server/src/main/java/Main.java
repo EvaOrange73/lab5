@@ -2,8 +2,6 @@ import control.*;
 import control.client.ClientManager;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Scanner;
 
 
 public class Main {
@@ -17,13 +15,10 @@ public class Main {
             ClientManager clientManager = new ClientManager(9000, commandManager, userManager);
 
             System.out.println("Сервер запущен");
-            Scanner scanner = new Scanner(new InputStreamReader(System.in));
-            while (true) {
-                while (System.in.available() == 0) {
-                    clientManager.connectClient();
-                }
-                String command = scanner.nextLine();
-                if (command.equals("exit")) break;
+            Thread console = new Thread(new ConsoleManager());
+            console.start();
+            while (console.isAlive()) {
+                clientManager.connectClient();
             }
             clientManager.close();
 
